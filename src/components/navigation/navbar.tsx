@@ -1,0 +1,1 @@
+export default function Navbar() { return <header className='p-6 border-b border-zinc-200 font-bold text-xl flex justify-between items-center'><span>Layzox</span><span className='text-xs font-normal text-zinc-500'>B2B Industrial Sourcing</span></header>; }

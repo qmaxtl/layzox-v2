@@ -1,0 +1,1 @@
+export default function Hero() { return <section className='py-20 text-center'><h1 className='text-4xl font-bold mb-4'>Industrial Sourcing Platform</h1><p className='text-zinc-600'>Connecting Buyers & Suppliers Across Ranchi & Beyond</p></section>; }
