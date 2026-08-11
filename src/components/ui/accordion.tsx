@@ -1,72 +1,89 @@
-import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
+import { AnimatePresence, motion } from "framer-motion";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import { cn } from "@/lib/cn";
 
-import { cn } from "@/lib/utils"
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
-
-function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
-  return (
-    <AccordionPrimitive.Root
-      data-slot="accordion"
-      className={cn("flex w-full flex-col", className)}
-      {...props}
-    />
-  )
+interface AccordionItemProps {
+  index: number;
+  question: string;
+  answer: string;
+  open: boolean;
+  onToggle: () => void;
 }
 
-function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
+function AccordionItem({ question, answer, open, onToggle, index }: AccordionItemProps) {
   return (
-    <AccordionPrimitive.Item
-      data-slot="accordion-item"
-      className={cn("not-last:border-b", className)}
-      {...props}
-    />
-  )
-}
-
-function AccordionTrigger({
-  className,
-  children,
-  ...props
-}: AccordionPrimitive.Trigger.Props) {
-  return (
-    <AccordionPrimitive.Header className="flex">
-      <AccordionPrimitive.Trigger
-        data-slot="accordion-trigger"
-        className={cn(
-          "group/accordion-trigger relative flex flex-1 items-start justify-between rounded-md border border-transparent py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:after:border-ring aria-disabled:pointer-events-none aria-disabled:opacity-50 **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4 **:data-[slot=accordion-trigger-icon]:text-muted-foreground",
-          className
-        )}
-        {...props}
-      >
-        {children}
-        <ChevronDownIcon data-slot="accordion-trigger-icon" className="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden" />
-        <ChevronUpIcon data-slot="accordion-trigger-icon" className="pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline" />
-      </AccordionPrimitive.Trigger>
-    </AccordionPrimitive.Header>
-  )
-}
-
-function AccordionContent({
-  className,
-  children,
-  ...props
-}: AccordionPrimitive.Panel.Props) {
-  return (
-    <AccordionPrimitive.Panel
-      data-slot="accordion-content"
-      className="overflow-hidden text-sm data-open:animate-accordion-down data-closed:animate-accordion-up"
-      {...props}
+    <div
+      className={cn(
+        "group rounded-2xl border transition-all duration-300",
+        open
+          ? "border-brand-600/30 bg-white shadow-[0_8px_32px_-12px_rgb(37_99_235/0.25)] dark:border-brand-500/30 dark:bg-ink-900"
+          : "border-ink-200 bg-white hover:border-ink-300 dark:border-ink-800 dark:bg-ink-900/40 dark:hover:border-ink-700",
+      )}
     >
-      <div
-        className={cn(
-          "h-(--accordion-panel-height) pt-0 pb-4 data-ending-style:h-0 data-starting-style:h-0 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
-          className
-        )}
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        className="flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left"
       >
-        {children}
-      </div>
-    </AccordionPrimitive.Panel>
-  )
+        <span className="flex items-start gap-4">
+          <span className="mt-0.5 font-mono text-xs font-medium text-brand-600 dark:text-accent-400">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <span className="font-display text-base font-semibold tracking-tight text-ink-900 dark:text-ink-50">
+            {question}
+          </span>
+        </span>
+        <span
+          className={cn(
+            "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all duration-300",
+            open
+              ? "rotate-45 border-brand-600 bg-brand-600 text-white"
+              : "border-ink-300 text-ink-500 group-hover:border-brand-500 group-hover:text-brand-600 dark:border-ink-600 dark:text-ink-400",
+          )}
+        >
+          <Plus className="h-4 w-4" />
+        </span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <p className="px-6 pb-6 pl-[3.4rem] text-[0.95rem] leading-relaxed text-ink-500 dark:text-ink-400">
+              {answer}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
 }
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+interface AccordionProps {
+  items: { question: string; answer: string }[];
+  className?: string;
+}
+
+export function Accordion({ items, className }: AccordionProps) {
+  const [openIndex, setOpenIndex] = useState<number>(0);
+
+  return (
+    <div className={cn("flex flex-col gap-3", className)}>
+      {items.map((item, i) => (
+        <AccordionItem
+          key={item.question}
+          index={i}
+          question={item.question}
+          answer={item.answer}
+          open={openIndex === i}
+          onToggle={() => setOpenIndex(openIndex === i ? -1 : i)}
+        />
+      ))}
+    </div>
+  );
+}

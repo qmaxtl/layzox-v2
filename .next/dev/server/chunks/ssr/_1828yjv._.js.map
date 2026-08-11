@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Amit/Desktop/layzox/src/app/layout.tsx"],"sourcesContent":["import React from 'react';\n\nexport default function RootLayout({\n  children,\n}: {\n  children: React.ReactNode;\n}) {\n  return (\n    <html lang=\"en\">\n      <body>{children}</body>\n    </html>\n  );\n}\r\n"],"names":["RootLayout","children","lang"],"mappings":";;;;;;AAEe,SAASA,WAAW,EACjCC,QAAQ,EAGT;IACC,qBACE,6VAAC;QAAKC,MAAK;kBACT,cAAA,6VAAC;sBAAMD;;;;;;;;;;;AAGb"}},
+    {"offset": {"line": 34, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Amit/Desktop/layzox/node_modules/.pnpm/next%4016.2.10_%40babel%2Bcore%407._6a822f4f531fbb360a16b74954ff05ca/node_modules/next/src/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = (\n  require('../../module.compiled') as typeof import('../../module.compiled')\n).vendored['react-rsc']!.ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":"AAAAA,OAAOC,OAAO,GACZC,QAAQ,4MACRC,QAAQ,CAAC,YAAY,CAAEC,kBAAkB","ignoreList":[0]}}]
+}

@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Layzox — Managed B2B Services Procurement Platform
+
+A managed B2B services procurement platform. One requirement. We handle the rest. Businesses submit a single requirement; Layzox coordinates sourcing, quotations and delivery through one accountable process.
+
+A premium, enterprise-grade, production-ready website.
+
+## Tech Stack
+
+- **Vite 8** + **React 19** + **TypeScript** — fast, typed, production build
+- **Tailwind CSS v4** — CSS-first design system with custom tokens
+- **Framer Motion 12** — scroll reveals, staggered entrances, layout animations, counters, tilt & magnetic effects
+- **React Router 7** — multi-page architecture with route-level code splitting
+- **lucide-react** — consistent iconography
+- **@fontsource** — self-hosted Inter, Space Grotesk & IBM Plex Mono (no external font CDN)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev       # start dev server on :5173
+npm run build     # production build to dist/
+npm run preview   # preview the production build
+npm run typecheck # type check
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Design System
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Palette:** primary `#0F172A`, secondary `#2563EB`, accent `#06B6D4`, surface `#FFFFFF`, soft surface `#F8FAFC`, text `#111827`
+- **Type:** Space Grotesk (display), Inter (body), IBM Plex Mono (labels/eyebrows)
+- **Tokens:** `ink-*`, `brand-*`, `accent-*` scales defined in `src/index.css` via Tailwind v4 `@theme`
+- **Features:** dark mode, glassmorphism, gradients, soft shadows, grid backgrounds, aurora blobs, marquees, smooth scroll
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+```
+src/
+├── components/
+│   ├── home/          # Home-page section components (Hero, ServicesSection, …)
+│   ├── layout/        # Header, Footer, ThemeToggle, ScrollToTop
+│   ├── pages/         # Page-specific components (LegalPage)
+│   └── ui/            # Reusable primitives (Button, Badge, Accordion, Reveal, …)
+├── hooks/             # useTheme
+├── lib/
+│   ├── data/          # All content, structured for easy extension
+│   └── site.ts        # Site config & navigation
+└── pages/             # Route pages
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Adding a New Service
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Services are data-driven. Add an entry to `src/lib/data/services.ts` — the card, catalog page, marquee, form dropdowns and sitemap feed update automatically:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```ts
+{
+  slug: "my-service",
+  name: "My Service",
+  category: "Facility & Maintenance", // must match a category name
+  icon: MyIcon,                       // any lucide icon
+  description: "…",
+  points: ["Point one", "Point two", "Point three"],
+},
+```
 
-## Deploy on Vercel
+New categories go into `serviceCategories`. New industries, FAQs, blog posts and platform features are added the same way in their respective files under `src/lib/data/`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Key Product Rules (Implemented)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Customers **cannot** browse vendors, compare quotations, contact or choose vendors
+- Layzox coordinates vendor assignment, quotations, scheduling, execution, payments, GST invoices and support
+- Layzox is the point of contact between businesses and service providers
+- Verification requirements vary by service category
+
+## SEO & Performance
+
+- Per-route meta titles/descriptions, Open Graph & Twitter cards, JSON-LD structured data
+- `robots.txt` + `sitemap.xml`
+- Route-level lazy loading, self-hosted fonts, semantic HTML, `prefers-reduced-motion` support
