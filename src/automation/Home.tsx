@@ -61,10 +61,10 @@ export default function Home() {
           </motion.div>
           <div className="hero-person">
             <img
-              src="/automation-professional.webp"
+              src="/layzox-hero-office.webp"
               alt="Professional working at a laptop in a modern office"
-              width="1086"
-              height="1448"
+              width="338"
+              height="309"
               fetchPriority="high"
             />
           </div>
@@ -95,6 +95,9 @@ export default function Home() {
               </Link>
             </div>
             <div className="hub-services">
+              <svg className="hub-wires" viewBox="0 0 60 250" preserveAspectRatio="none" aria-hidden="true">
+                {[24,75,125,175,226].map((y,i)=><path key={y} d={`M0 125 C26 125 27 ${y} 60 ${y}`} fill="none" stroke={["#00dbff","#18ffd9","#18efff","#adeaff","#c388ff"][i]} strokeWidth="2"/>)}
+              </svg>
               {[
                 [Bot, "AI Agents", "ai-agents"],
                 [MessageCircle, "WhatsApp Automation", "whatsapp"],
@@ -117,7 +120,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="hero-wave" aria-hidden="true" />
+        <svg className="signal-wave" viewBox="0 0 1536 100" preserveAspectRatio="none" aria-hidden="true">
+          {Array.from({length:26},(_,i)=><path key={i} d={`M-20 ${i*1.2} Q145 ${145+i} 360 ${95+i/2} T770 ${82+i} Q925 ${17+i} 1055 ${63+i} T1300 ${41+i} Q1455 ${74+i} 1556 ${i*2-12}`} fill="none" stroke={i%3===0?"#65fff9":"#008eff"} strokeWidth="1"/>)}
+        </svg>
       </section>
       <div className="home-body">
         <section
@@ -210,6 +215,7 @@ export default function Home() {
               Interactive simulation — no messages sent or accounts connected.
             </small>
           </div>
+          <Link className="overview-tile" to="/lab"><span>Explore the workflow</span></Link>
         </section>
         <section className="impact-row">
           <h2>

@@ -1931,3 +1931,28 @@ blockquote {
     animation: none !important;
   }
 }
+
+.signal-wave {position:absolute;bottom:-2px;width:100%;height:26%;pointer-events:none;}
+.hub-services {position:relative}
+.hub-services .hub-wires {position:absolute;left:-17%;width:18%;height:100%;top:0;filter:drop-shadow(0 0 4px #00cbff);pointer-events:none}
+.hub-services a:before {display:none}
+.hub-services a:nth-of-type(2) svg {color:#63ec00}
+.automation-hub {background:linear-gradient(155deg,#075385,#021731 42%,#032340);box-shadow:inset 0 0 17px #009fff90,0 0 4px #fff,0 0 22px #009fff88}
+.overview-tile {display:flex;align-items:flex-end;min-height:112px;padding:12px 14px;color:white;border-radius:13px;font-weight:700;background:linear-gradient(0deg,#02142e 1%,transparent 66%),url('/workflow-overview.webp') center/cover}
+.solution-card,.workflow-preview-main,.capability-bar {box-shadow:0 6px 12px #1766bd30,inset 0 1px 1px white}
+.solution-card.featured {background:linear-gradient(145deg,#006dff,#031c56 52%,#003c95);box-shadow:inset 0 -3px 9px #20d8ff,0 5px 16px #2163c85c}
+@media(min-width:1100px){
+.hero-inner {grid-template-columns:34% 23% 43%;min-height:clamp(315px,21.8vw,370px);padding:15px 3.6% 42px}
+.hero-person {margin:-15px -8px -42px -15px;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 94%,transparent)}
+.hero-person img {object-position:center top}
+.hero-copy>p {font-size:clamp(13px,1.05vw,17px);line-height:1.32}
+.hero h1 {margin:10px 0}
+.hero-actions,.benefits {margin-top:13px}
+.hub-area {grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:8%;margin-left:0}
+.hub-services {padding:0}
+.hub-services .hub-wires {left:-27%;width:28%}
+.hub-services a {font-size:clamp(10px,.88vw,14px)}
+.workflow-preview {display:grid;grid-template-columns:16% minmax(0,1fr) 18%;align-items:stretch;gap:1.2%}
+.solution-card {min-height:144px}
+}
+@media(max-width:1099px){.overview-tile {margin-top:8px;min-height:92px;background-position:center 42%}}
