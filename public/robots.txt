@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://layzox.com/sitemap.xml
+Disallow: /api/
+Sitemap: https://layzox-v2-fawn.vercel.app/sitemap.xml
