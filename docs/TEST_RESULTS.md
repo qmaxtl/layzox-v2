@@ -12,3 +12,6 @@
 
 ## Not yet verified
 Actual Supabase migrations/RLS/rate-limit concurrency, real provider delivery, production Vercel routing/security headers, full assistive-technology audit and Lighthouse under mobile throttling. No Lighthouse score is claimed. Browser inspection used development preview; server handler tests use mocked services. No real customer accounts or messages were connected/sent.
+
+## Preview smoke checks
+Vercel preview build passed. Homepage, /roi, /lab, /audit and /solutions returned HTTP 200 with expected titles and configured security headers. An unknown route returned 404. Fixed server import extension resolution; at checkpoint 7fc7505, GET /api/leads and /api/notify-leads return expected JSON 405 instead of invocation failure. No live lead was submitted. GitHub Actions failed before any job steps; cause remains unconfirmed.

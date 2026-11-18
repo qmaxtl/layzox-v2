@@ -11,4 +11,4 @@ Before work, fetch origin and inspect branches/PRs to avoid duplicating another 
 
 Integrated concurrent feature/automation-platform-v1 commits through 75b6fec. Its earlier Hero.tsx remains preserved; published implementation checkpoint is 0e8705b. Documentation conflicts were reconciled using the more complete current state.
 
-Review: https://github.com/qmaxtl/layzox-v2/pull/1 (draft). Preview deployment built successfully. Runtime smoke test found an emitted TypeScript import extension in the lead API; compiler rewrite enabled to emit JavaScript imports. Recheck preview API after the fix. GitHub Actions failed before any job steps; cause not established.
+Review: https://github.com/qmaxtl/layzox-v2/pull/1 (draft). Preview deployment built successfully. Runtime smoke test found an emitted TypeScript import extension in the lead API; compiler rewrite enabled to emit JavaScript imports. Fix verified at 7fc7505: both API endpoints return expected 405 for GET; homepage returns 200. GitHub Actions failed before any job steps; cause not established.
