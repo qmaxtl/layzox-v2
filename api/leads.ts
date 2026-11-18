@@ -10,16 +10,20 @@ export default async function handler(req: Request, res: ServerResponse) {
     res.statusCode = status;
     res.end(JSON.stringify(body));
   };
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return reply(405, { error: "Method not allowed." });
-  }
   const config = {
     url: process.env.SUPABASE_URL,
     key: process.env.SUPABASE_SERVICE_ROLE_KEY,
     salt: process.env.RATE_LIMIT_SALT,
     origin: process.env.SITE_URL,
   };
+  if (req.method === "HEAD") {
+    res.statusCode = Object.values(config).every(Boolean) ? 200 : 503;
+    return res.end();
+  }
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "HEAD, POST");
+    return reply(405, { error: "Method not allowed." });
+  }
   if (!config.url || !config.key || !config.salt || !config.origin)
     return reply(503, {
       error:

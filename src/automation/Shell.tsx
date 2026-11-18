@@ -137,7 +137,7 @@ export function Shell() {
           }
         }}
       >
-        <Link to="/" aria-label="Layzox home">
+        <Link to="/">
           <Brand />
         </Link>
         <button

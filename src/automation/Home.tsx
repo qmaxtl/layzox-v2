@@ -24,12 +24,7 @@ export default function Home() {
     <>
       <section className="hero">
         <div className="hero-inner">
-          <motion.div
-            className="hero-copy"
-            initial={reduced ? false : { opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="hero-copy">
             <span className="hero-pill">
               <i /> AI + Automation + Integration
             </span>
@@ -58,7 +53,7 @@ export default function Home() {
                 ),
               )}
             </div>
-          </motion.div>
+          </div>
           <div className="hero-person">
             <img
               src="/layzox-hero-office.webp"

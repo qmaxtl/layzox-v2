@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useLocation } from "react-router-dom";
@@ -20,6 +20,7 @@ export default function LeadForm() {
   const [status, setStatus] = useState(""),
     [success, setSuccess] = useState(false);
   const {
+    getValues,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -32,6 +33,25 @@ export default function LeadForm() {
       website: "",
     },
   });
+  const [unavailable, setUnavailable] = useState(false);
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/api/leads", { method: "HEAD", signal: controller.signal })
+      .then(response => { if (!controller.signal.aborted) setUnavailable(response.status === 503); })
+      .catch(() => {});
+    return () => controller.abort();
+  }, []);
+  function downloadBrief() {
+    const data = getValues();
+    const brief = ["LAYZOX enquiry draft", "Prepared locally. Not submitted.", "",
+      data.company, data.name, data.email, data.industry, "", data.message].join("\n");
+    const url = URL.createObjectURL(new Blob([brief], { type: "text/plain;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "layzox-enquiry.txt";
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
   const pending = useRef<{ body: string; key: string } | null>(null);
   const submit = async (data: LeadInput) => {
     setStatus("");
@@ -107,6 +127,7 @@ export default function LeadForm() {
         ) : (
           <form onSubmit={handleSubmit(submit)} noValidate>
             <h2>Tell us about your business</h2>
+            {unavailable && <p role="status" className="error-banner">Online submission is temporarily unavailable. You can prepare your enquiry below and download a copy.</p>}
             <div className="form-grid">
               {(["name", "email", "company"] as const).map((key) => (
                 <label key={key}>
@@ -189,7 +210,7 @@ export default function LeadForm() {
                 {status}
               </p>
             )}
-            <button className="button" disabled={isSubmitting} type="submit">
+            <button className="button" disabled={isSubmitting || unavailable} type="submit">
               {isSubmitting
                 ? "Submitting…"
                 : kind === "contact"
@@ -197,6 +218,7 @@ export default function LeadForm() {
                   : "Request my free audit"}
               <ArrowRight size={18} />
             </button>
+            {(unavailable || status) && <button type="button" className="button secondary" onClick={downloadBrief}>Download my enquiry</button>}
             <p className="form-note">
               No obligation. We’ll assess your needs before proposing a scope.
             </p>

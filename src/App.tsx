@@ -93,9 +93,9 @@ export default function App() {
             <Route path="lab" element={<Lab />} />
             <Route path="roi" element={<Roi />} />
             <Route path="discovery" element={<Discovery />} />
-            <Route path="audit" element={<LeadForm />} />
-            <Route path="contact" element={<LeadForm />} />
-            <Route path="consultation" element={<LeadForm />} />
+            <Route path="audit" element={<LeadForm key="audit" />} />
+            <Route path="contact" element={<LeadForm key="contact" />} />
+            <Route path="consultation" element={<LeadForm key="consultation" />} />
             <Route path="about" element={<About />} />
             <Route path="resources" element={<Resources />} />
             <Route path="legal/privacy-policy" element={<Legal />} />
