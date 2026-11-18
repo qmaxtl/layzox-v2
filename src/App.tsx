@@ -1,278 +1,124 @@
-import { lazy, Suspense, type ReactNode } from "react";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { Layout } from "@/components/layout/Layout";
-import { Home } from "@/pages/Home";
-import { AuthProvider, useAuth } from "@/lib/auth";
-import { usePageMeta } from "@/lib/seo";
-import { ScrollToTop } from "@/components/layout/ScrollToTop";
-
-const Services = lazy(() => import("@/pages/Services").then((m) => ({ default: m.Services })));
-const Industries = lazy(() => import("@/pages/Industries").then((m) => ({ default: m.Industries })));
-const HowItWorksPage = lazy(() =>
-  import("@/pages/HowItWorksPage").then((m) => ({ default: m.HowItWorksPage })),
+import { lazy, Suspense, useEffect } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { MotionConfig } from "framer-motion";
+import { Shell } from "./automation/Shell";
+import Home from "./automation/Home";
+import { solutions } from "./automation/data";
+const Lab = lazy(() => import("./automation/Lab"));
+const Roi = lazy(() => import("./automation/Roi"));
+const Discovery = lazy(() => import("./automation/Discovery"));
+const LeadForm = lazy(() => import("./automation/LeadForm"));
+const Solutions = lazy(() =>
+  import("./automation/Pages").then((m) => ({ default: m.Solutions })),
 );
-const WhyLayzoxPage = lazy(() =>
-  import("@/pages/WhyLayzox").then((m) => ({ default: m.WhyLayzoxPage })),
+const Industries = lazy(() =>
+  import("./automation/Pages").then((m) => ({ default: m.Industries })),
 );
-const ForBusinesses = lazy(() =>
-  import("@/pages/ForBusinesses").then((m) => ({ default: m.ForBusinesses })),
+const UseCases = lazy(() =>
+  import("./automation/Pages").then((m) => ({ default: m.UseCases })),
 );
-const BecomeAPartner = lazy(() =>
-  import("@/pages/BecomeAPartner").then((m) => ({ default: m.BecomeAPartner })),
+const About = lazy(() =>
+  import("./automation/Pages").then((m) => ({ default: m.About })),
 );
-const About = lazy(() => import("@/pages/About").then((m) => ({ default: m.About })));
-const Resources = lazy(() => import("@/pages/Resources").then((m) => ({ default: m.Resources })));
-const BlogPost = lazy(() => import("@/pages/BlogPost").then((m) => ({ default: m.BlogPost })));
-const Contact = lazy(() => import("@/pages/Contact").then((m) => ({ default: m.Contact })));
-const PostRequirement = lazy(() =>
-  import("@/pages/PostRequirement").then((m) => ({ default: m.PostRequirement })),
+const Resources = lazy(() =>
+  import("./automation/Pages").then((m) => ({ default: m.Resources })),
 );
-const TalkToExpert = lazy(() =>
-  import("@/pages/TalkToExpert").then((m) => ({ default: m.TalkToExpert })),
+const Legal = lazy(() =>
+  import("./automation/Pages").then((m) => ({ default: m.Legal })),
 );
-const Careers = lazy(() => import("@/pages/Careers").then((m) => ({ default: m.Careers })));
-const PrivacyPolicy = lazy(() =>
-  import("@/pages/PrivacyPolicy").then((m) => ({ default: m.PrivacyPolicy })),
+const NotFound = lazy(() =>
+  import("./automation/Pages").then((m) => ({ default: m.NotFound })),
 );
-const Terms = lazy(() => import("@/pages/Terms").then((m) => ({ default: m.Terms })));
-const NotFound = lazy(() => import("@/pages/NotFound").then((m) => ({ default: m.NotFound })));
-const Login = lazy(() => import("@/pages/Login").then((m) => ({ default: m.Login })));
-const CrmLayout = lazy(() =>
-  import("@/components/crm/CrmLayout").then((m) => ({ default: m.CrmLayout })),
-);
-const CrmOverview = lazy(() =>
-  import("@/pages/crm/CrmOverview").then((m) => ({ default: m.CrmOverview })),
-);
-const CrmRequirements = lazy(() =>
-  import("@/pages/crm/CrmRequirements").then((m) => ({ default: m.CrmRequirements })),
-);
-const CrmCustomers = lazy(() =>
-  import("@/pages/crm/CrmCustomers").then((m) => ({ default: m.CrmCustomers })),
-);
-const CrmVendors = lazy(() =>
-  import("@/pages/crm/CrmVendors").then((m) => ({ default: m.CrmVendors })),
-);
-const CrmOrders = lazy(() =>
-  import("@/pages/crm/CrmOrders").then((m) => ({ default: m.CrmOrders })),
-);
-const CrmInvoices = lazy(() =>
-  import("@/pages/crm/CrmInvoices").then((m) => ({ default: m.CrmInvoices })),
-);
-
-function Protected({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
-  const location = useLocation();
-  if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
-  return <>{children}</>;
-}
-
-function Meta({ title, description }: { title: string; description?: string }) {
-  usePageMeta({ title, description });
+function Metadata() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    const titles: Record<string, string> = {
+      "/": "Business Automation & AI Operations",
+      "/solutions": "Automation Solutions",
+      "/industries": "Industry Solutions",
+      "/use-cases": "Automation Use Cases",
+      "/lab": "Automation Experience Lab",
+      "/roi": "Automation ROI Calculator",
+      "/discovery": "Discovery Studio",
+      "/audit": "Free Automation Audit",
+      "/about": "About Layzox",
+      "/contact": "Contact",
+      "/consultation": "Project Consultation",
+      "/resources": "Automation Resources",
+      "/legal/privacy-policy": "Privacy Notice",
+      "/legal/terms": "Website Terms",
+    };
+    const title =
+      titles[pathname] ||
+      solutions.find((s) => pathname === `/solutions/${s.slug}`)?.name ||
+      "Page not found";
+    document.title = `${title} | LAYZOX`;
+    const base =
+      import.meta.env.VITE_SITE_URL || "https://layzox-v2-fawn.vercel.app";
+    const url = base.replace(/\/$/, "") + pathname;
+    document.querySelector('link[rel="canonical"]')?.setAttribute("href", url);
+    document
+      .querySelector('meta[property="og:url"]')
+      ?.setAttribute("content", url);
+    document
+      .querySelector('meta[property="og:title"]')
+      ?.setAttribute("content", document.title);
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute(
+        "content",
+        `${title}. Explore implemented business workflows, AI-assisted operations and connected systems with Layzox.`,
+      );
+  }, [pathname]);
   return null;
 }
-
 export default function App() {
   return (
-    <AuthProvider>
-      <ScrollToTop />
+    <MotionConfig reducedMotion="user">
+      <Metadata />
       <Suspense
         fallback={
-          <div className="flex min-h-screen items-center justify-center bg-white dark:bg-ink-950">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-brand-600" />
+          <div className="loading" role="status">
+            Loading Layzox…
           </div>
         }
       >
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/crm"
-            element={
-              <Protected>
-                <CrmLayout />
-              </Protected>
-            }
-          >
-            <Route index element={<CrmOverview />} />
-            <Route path="requirements" element={<CrmRequirements />} />
-            <Route path="customers" element={<CrmCustomers />} />
-            <Route path="vendors" element={<CrmVendors />} />
-            <Route path="orders" element={<CrmOrders />} />
-            <Route path="invoices" element={<CrmInvoices />} />
+          <Route element={<Shell />}>
+            <Route index element={<Home />} />
+            <Route path="solutions" element={<Solutions />} />
+            <Route path="solutions/:slug" element={<Solutions />} />
+            <Route path="industries" element={<Industries />} />
+            <Route path="use-cases" element={<UseCases />} />
+            <Route path="lab" element={<Lab />} />
+            <Route path="roi" element={<Roi />} />
+            <Route path="discovery" element={<Discovery />} />
+            <Route path="audit" element={<LeadForm />} />
+            <Route path="contact" element={<LeadForm />} />
+            <Route path="consultation" element={<LeadForm />} />
+            <Route path="about" element={<About />} />
+            <Route path="resources" element={<Resources />} />
+            <Route path="legal/privacy-policy" element={<Legal />} />
+            <Route path="legal/terms" element={<Legal />} />
+            {Object.entries({
+              services: "/solutions",
+              "how-it-works": "/lab",
+              "why-layzox": "/about",
+              "for-businesses": "/discovery",
+              "post-requirement": "/audit",
+              "request-quote": "/audit",
+              "talk-to-expert": "/consultation",
+            }).map(([old, to]) => (
+              <Route
+                key={old}
+                path={old}
+                element={<Navigate to={to} replace />}
+              />
+            ))}
+            <Route path="*" element={<NotFound />} />
           </Route>
-          <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/services"
-            element={
-              <>
-                <Meta
-                  title="Services — Layzox | Managed B2B Services Procurement"
-                  description="Managed business services across 8 categories — pest control, security, facility management, IT, logistics and more."
-                />
-                <Services />
-              </>
-            }
-          />
-          <Route
-            path="/industries"
-            element={
-              <>
-                <Meta
-                  title="Industries — Layzox | Managed B2B Services"
-                  description="Managed services for manufacturing, healthcare, education, hospitality, retail, construction, real estate and more."
-                />
-                <Industries />
-              </>
-            }
-          />
-          <Route
-            path="/how-it-works"
-            element={
-              <>
-                <Meta
-                  title="How It Works — Layzox | Managed B2B Services Procurement"
-                  description="Submit a requirement. Layzox coordinates sourcing, quotations and delivery through one accountable process."
-                />
-                <HowItWorksPage />
-              </>
-            }
-          />
-          <Route
-            path="/why-layzox"
-            element={
-              <>
-                <Meta
-                  title="Why Layzox — Managed B2B Services Procurement"
-                  description="Why businesses choose Layzox's managed procurement over vendor marketplaces — one accountable process, structured sourcing and transparent quotations."
-                />
-                <WhyLayzoxPage />
-              </>
-            }
-          />
-          <Route
-            path="/for-businesses"
-            element={
-              <>
-                <Meta
-                  title="For Businesses — Layzox | Managed B2B Services"
-                  description="Submit one requirement and Layzox coordinates the rest — sourcing, quotations, delivery and GST invoicing."
-                />
-                <ForBusinesses />
-              </>
-            }
-          />
-          <Route
-            path="/become-a-partner"
-            element={
-              <>
-                <Meta
-                  title="Become a Partner — Layzox | Partner Network"
-                  description="Verification requirements vary by service category. Approved partners receive work internally, matched to their area and expertise."
-                />
-                <BecomeAPartner />
-              </>
-            }
-          />
-          <Route
-            path="/about"
-            element={
-              <>
-                <Meta
-                  title="About — Layzox | Managed B2B Services Procurement"
-                  description="Layzox is a managed B2B services procurement company. One requirement, one accountable process."
-                />
-                <About />
-              </>
-            }
-          />
-          <Route
-            path="/resources"
-            element={
-              <>
-                <Meta
-                  title="Resources — Layzox | Procurement & Operations Insights"
-                  description="Practical playbooks on procurement, operations and vendor management from the Layzox team."
-                />
-                <Resources />
-              </>
-            }
-          />
-          <Route
-            path="/blog/:slug"
-            element={
-              <>
-                <Meta title="Insights — Layzox" />
-                <BlogPost />
-              </>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <>
-                <Meta
-                  title="Contact — Layzox | Talk to a Procurement Specialist"
-                  description="Contact Layzox for managed B2B services procurement. Head office in Ranchi, Jharkhand."
-                />
-                <Contact />
-              </>
-            }
-          />
-          <Route
-            path="/post-requirement"
-            element={
-              <>
-                <Meta
-                  title="Post Requirement — Layzox | Managed B2B Services"
-                  description="Submit your business service requirement once. Layzox coordinates sourcing, quotations and delivery to completion."
-                />
-                <PostRequirement />
-              </>
-            }
-          />
-          <Route
-            path="/talk-to-expert"
-            element={
-              <>
-                <Meta
-                  title="Talk to Expert — Layzox | Free Procurement Consultation"
-                  description="Book a free 20-minute consultation with a Layzox procurement specialist."
-                />
-                <TalkToExpert />
-              </>
-            }
-          />
-          <Route
-            path="/careers"
-            element={
-              <>
-                <Meta title="Careers — Layzox" description="Join the Layzox team and help build a managed B2B services procurement platform." />
-                <Careers />
-              </>
-            }
-          />
-          <Route
-            path="/legal/privacy-policy"
-            element={
-              <>
-                <Meta title="Privacy Policy — Layzox" />
-                <PrivacyPolicy />
-              </>
-            }
-          />
-          <Route
-            path="/legal/terms"
-            element={
-              <>
-                <Meta title="Terms of Service — Layzox" />
-                <Terms />
-              </>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Route>
         </Routes>
       </Suspense>
-    </AuthProvider>
+    </MotionConfig>
   );
 }

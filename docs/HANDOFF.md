@@ -1,20 +1,12 @@
-# Handoff — Layzox V2
+# Handoff
+Repository qmaxtl/layzox-v2. Working branch feat/automation-platform. Read AGENTS.md, MASTER_PLAN.md, PROGRESS.md and TEST_RESULTS.md.
 
-Repository: qmaxtl/layzox-v2
-Main branch: main (unchanged)
-Backup branch: backup/pre-automation-pivot-2026-11-18
-Development branch: feature/automation-platform-v1
+Active app: src/automation + src/App.tsx. Backend: api/leads.ts, api/notify-leads.ts. Database schema: docs/LEAD_DATABASE.sql. Runtime: Node 24 / npm. Commands: npm ci; npm run lint; npm run typecheck; npm test; npm run build.
 
-## Goal
-Convert existing Vite/React/TypeScript/Tailwind procurement website into premium business automation consultancy with interactive workflow demonstrations, discovery experience, ROI estimates and real lead intake. Preserve approved human-crafted navy, blue and white style. Do not create a DIY app builder.
+The implemented site follows the approved navy/blue/white reference, with real components and interactive demos. Sources from the earlier procurement app remain for recovery, but are outside the active import graph. Do not reconnect demo CRM/auth or fake-success forms.
 
-## Resume
-1. Fetch latest remote branches; check PRs and branch history.
-2. Read AGENTS.md and docs/PROGRESS.md.
-3. Inspect src/pages/Home.tsx, src/components/home/*, src/App.tsx, src/lib/site.ts, src/lib/data/services.ts.
-4. Continue converting homepage and services without touching main.
-5. Run typecheck/build and browser tests; record evidence.
-6. Commit/push and update docs/PROGRESS.md and this file.
+Current code includes 20 prerendered routes, four workflow simulations, discovery, ROI, form validation, durable-storage interface and an optional notification worker. It is not a completed production launch. Use the release gates in PROGRESS.md.
 
-## Caution
-Existing CRM login is insecure demo auth and forms simulate submission. Do not imply these work in production. No test runs yet. Existing project has a different business model; some old sections will remain until migration is complete.
+Before work, fetch origin and inspect branches/PRs to avoid duplicating another session. Main has not been modified by this implementation. Use git log for exact checkpoint IDs; update this file on the next substantive milestone.
+
+Integrated concurrent feature/automation-platform-v1 commits through 75b6fec. Its earlier Hero.tsx remains preserved; active implementation checkpoint is 19e3981. Documentation conflicts were reconciled using the more complete current state.

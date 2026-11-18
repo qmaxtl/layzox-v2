@@ -1,0 +1,60 @@
+{
+  "framework": "vite",
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/services",
+      "destination": "/solutions/index.html"
+    },
+    {
+      "source": "/how-it-works",
+      "destination": "/lab/index.html"
+    },
+    {
+      "source": "/why-layzox",
+      "destination": "/about/index.html"
+    },
+    {
+      "source": "/for-businesses",
+      "destination": "/discovery/index.html"
+    },
+    {
+      "source": "/post-requirement",
+      "destination": "/audit/index.html"
+    },
+    {
+      "source": "/request-quote",
+      "destination": "/audit/index.html"
+    },
+    {
+      "source": "/talk-to-expert",
+      "destination": "/consultation/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        }
+      ]
+    }
+  ],
+  "cleanUrls": true
+}

@@ -1,7 +1,10 @@
 # Layzox agent instructions
-
-Target positioning: **Business Automation & AI Operations**, not the previous B2B procurement marketplace. Preserve the approved clean, human-crafted navy/blue/white visual direction. Never claim a mock workflow is a live integration.
-
-Work only on feature branches; do not overwrite main without approval. Before changes, inspect current files and check remote commits. Keep docs/PROGRESS.md and docs/HANDOFF.md current. Run npm install, npm run typecheck, and npm run build where execution is available. Never claim a test passed unless executed. Do not store credentials in Git.
-
-Priority: (1) audit and safe pivot, (2) approved responsive homepage, (3) automation solutions and demos, (4) real lead capture, (5) secure authentication/backend, (6) testing/deployment.
+Read docs/MASTER_PLAN.md, docs/PROGRESS.md and docs/HANDOFF.md first.
+- Repository: qmaxtl/layzox-v2. Keep main stable; use feature branches and PRs. Fetch and check remote before edits. Never force push.
+- Vite + React + TypeScript; active application in src/automation, imported by src/App.tsx. Legacy sources remain for reference; do not reconnect demo authentication or fake-success forms.
+- npm ci; npm run dev; npm run typecheck; npm test; npm run build.
+- Preserve approved navy/cyan/white design in docs/references. Original approved logo silhouette, professional human image, real HTML cards and interactive hub. No screenshot-as-page implementation.
+- Label simulations and estimates. No fabricated clients, testimonials, statistics, contacts or case studies.
+- Respect reduced motion, keyboard input, responsive layout, accessible labels and errors.
+- Secrets server-side only. Leads must fail closed without configured durable backend. Never log lead personal data.
+- Update progress, test results and handoff at milestones; commit and push. Production release needs owner approval after reviewed checks.
