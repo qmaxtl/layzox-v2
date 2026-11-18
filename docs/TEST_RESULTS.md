@@ -15,3 +15,5 @@ Actual Supabase migrations/RLS/rate-limit concurrency, real provider delivery, p
 
 ## Preview smoke checks
 Vercel preview build passed. Homepage, /roi, /lab, /audit and /solutions returned HTTP 200 with expected titles and configured security headers. An unknown route returned 404. Fixed server import extension resolution; at checkpoint 7fc7505, GET /api/leads and /api/notify-leads return expected JSON 405 instead of invocation failure. No live lead was submitted. GitHub Actions failed before any job steps; cause remains unconfirmed.
+
+Release hardening: database migration executed on an isolated PostgreSQL engine (PGlite). Three identical submission IDs produced one row, five distinct enquiries were accepted, the sixth was limited, and a second worker claim returned no already-claimed rows. Submission retries reuse a UUID for an unchanged body. Vercel now runs lint and tests before building. Production database, approved contact/retention details and notification delivery still require verification. New local Chromium launch was blocked by the environment socket restriction, so no updated browser audit score is claimed.

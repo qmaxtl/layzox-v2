@@ -317,8 +317,7 @@ export function Legal() {
             <h2>Questions and requests</h2>
             <p>
               Use the contact form for privacy questions or requests concerning
-              your enquiry. Retention periods and the final business contact
-              details must be confirmed before production launch.
+              your enquiry. Include the email address you used to submit your request so we can identify the relevant record.
             </p>
           </>
         ) : (
@@ -344,8 +343,7 @@ export function Legal() {
             </p>
             <h2>Business terms</h2>
             <p>
-              Final contracting entity, applicable terms and legal review must
-              be confirmed before production release.
+              Review the contracting parties, deliverables, fees and terms in your written proposal before agreeing to a project.
             </p>
           </>
         )}

@@ -43,6 +43,9 @@ export default async function handler(req: Request, res: ServerResponse) {
   }
   if (JSON.stringify(body ?? {}).length > 16000)
     return reply(413, { error: "Request is too large." });
+  const key = req.headers["idempotency-key"];
+  if (key !== undefined && (typeof key !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(key)))
+    return reply(400, { error: "Invalid enquiry reference." });
   const parsed = leadSchema.safeParse(body);
   if (!parsed.success)
     return reply(400, {
@@ -71,7 +74,7 @@ export default async function handler(req: Request, res: ServerResponse) {
         },
         body: JSON.stringify({
           p_bucket: bucket,
-          p_request_id: randomUUID(),
+          p_request_id: key ?? randomUUID(),
           p_payload: parsed.data,
         }),
         signal: AbortSignal.timeout(8000),

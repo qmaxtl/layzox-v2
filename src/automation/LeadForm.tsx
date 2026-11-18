@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useLocation } from "react-router-dom";
@@ -32,13 +32,16 @@ export default function LeadForm() {
       website: "",
     },
   });
+  const pending = useRef<{ body: string; key: string } | null>(null);
   const submit = async (data: LeadInput) => {
     setStatus("");
     try {
+      const body = JSON.stringify(data);
+      if (pending.current?.body !== body) pending.current = { body, key: crypto.randomUUID() };
       const response = await fetch("/api/leads", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json", "Idempotency-Key": pending.current.key },
+        body,
         signal: AbortSignal.timeout(15000),
       });
       const result = await response.json().catch(() => ({}));

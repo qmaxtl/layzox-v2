@@ -13,6 +13,10 @@ create or replace function public.submit_automation_lead(p_bucket text,p_request
 returns jsonb language plpgsql security definer set search_path=public as $$
 declare count_now integer;
 begin
+ perform pg_advisory_xact_lock(hashtextextended(p_request_id::text, 0));
+ if exists(select 1 from automation_leads where id=p_request_id) then
+   return jsonb_build_object('accepted',exists(select 1 from automation_leads where id=p_request_id and payload=p_payload));
+ end if;
  insert into automation_rate_limits(bucket,window_start,requests) values(p_bucket,now(),1)
  on conflict(bucket) do update set
  requests=case when automation_rate_limits.window_start < now()-interval '1 hour' then 1 else automation_rate_limits.requests+1 end,
