@@ -25,7 +25,8 @@
       "@/*": [
         "./src/*"
       ]
-    }
+    },
+    "rewriteRelativeImportExtensions": true
   },
   "include": [
     "src/main.tsx",

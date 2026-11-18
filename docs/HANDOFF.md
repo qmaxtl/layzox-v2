@@ -9,4 +9,6 @@ Current code includes 20 prerendered routes, four workflow simulations, discover
 
 Before work, fetch origin and inspect branches/PRs to avoid duplicating another session. Main has not been modified by this implementation. Use git log for exact checkpoint IDs; update this file on the next substantive milestone.
 
-Integrated concurrent feature/automation-platform-v1 commits through 75b6fec. Its earlier Hero.tsx remains preserved; active implementation checkpoint is 19e3981. Documentation conflicts were reconciled using the more complete current state.
+Integrated concurrent feature/automation-platform-v1 commits through 75b6fec. Its earlier Hero.tsx remains preserved; published implementation checkpoint is 0e8705b. Documentation conflicts were reconciled using the more complete current state.
+
+Review: https://github.com/qmaxtl/layzox-v2/pull/1 (draft). Preview deployment built successfully. Runtime smoke test found an emitted TypeScript import extension in the lead API; compiler rewrite enabled to emit JavaScript imports. Recheck preview API after the fix. GitHub Actions failed before any job steps; cause not established.

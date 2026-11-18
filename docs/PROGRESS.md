@@ -13,7 +13,7 @@ Active branch: feat/automation-platform. Original main baseline: 6fe19d7.
 - CI definition, automated tests and responsive screenshots.
 
 ## Current
-Local lint, typecheck, 12 tests and production build passed. Implementation checkpoint: 19e3981. Integrated the concurrent feature/automation-platform-v1 history through 75b6fec; its earlier Hero.tsx is preserved in the legacy source. Active homepage remains src/automation/Home.tsx. Preparing reviewable GitHub checkpoint.
+Local lint, typecheck, 12 tests and production build passed. Published implementation checkpoint: 0e8705b. Integrated the concurrent feature/automation-platform-v1 history through 75b6fec; its earlier Hero.tsx is preserved in the legacy source. Active homepage remains src/automation/Home.tsx. Draft PR #1 created. Preview build passed; homepage, ROI, lab and solutions returned HTTP 200. Lead API import-extension fix pending preview recheck. GitHub Actions failed before job steps; not marked passing.
 
 ## Remaining release gates
 - Provision and verify database migration and server environment.
