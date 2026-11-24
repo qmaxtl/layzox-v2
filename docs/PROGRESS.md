@@ -12,14 +12,18 @@ Active branch: feat/automation-platform. Original main baseline: 6fe19d7.
 - Build-time HTML prerendering for 20 routes, metadata, sitemap, robots and security-header configuration.
 - CI definition, automated tests and responsive screenshots.
 
-## Current
-Local lint, typecheck, 12 tests and production build passed. Published implementation checkpoint: 0e8705b. Integrated the concurrent feature/automation-platform-v1 history through 75b6fec; its earlier Hero.tsx is preserved in the legacy source. Active homepage remains src/automation/Home.tsx. Draft PR #1 created. Preview build passed; homepage, ROI, lab and solutions returned HTTP 200. Lead API import-extension fix verified on preview at 7fc7505: both APIs return expected 405 on GET, homepage 200. GitHub Actions failed before job steps; not marked passing.
+## Current — 24 November 2026
 
-## Remaining release gates
-- Provision and verify database migration and server environment.
-- Authorise recipient/provider before enabling email notifications; test actual delivery.
-- Confirm business identity, contact channel, retention policy and legal copy.
-- Validate Vercel preview, final accessibility/performance checks, CI and owner review.
-- Production release only after approval. No production promotion performed.
+All 20 routes build and pass the responsive browser sweep. Consultation now retains its intent and submit label, including direct visits with a trailing slash. Escape returns keyboard focus to the open navigation group. Consent validation is associated with the checkbox, and inactive Discovery steps meet the tested contrast requirement. The footer and About page identify Layzox India Private Limited.
 
-Tests: see TEST_RESULTS.md. Do not mark this production-ready while these gates remain open.
+The lead handler now measures UTF-8 body size and checks the JSON media type. The worker records provider submission only after receiving a receipt. Missing receipts and incomplete batches signal retryable failure. Previously completed outbox records remain terminal. Updated locked dependencies resolve the three high-severity findings in the full npm audit.
+
+## Release gates
+
+- GitHub Actions run 44370990211 was blocked before runner startup by an account billing lock. The account owner must resolve billing, then rerun Quality.
+- Vercel returned no project environment variables. Configure preview-scoped durable storage, origin, and rate-limit settings. Verify database permissions and persistence on the intended Supabase project.
+- Authorise the notification provider, sender, recipient and worker schedule, and verify receipt in the intended mailbox.
+- Confirm the privacy contact, retention terms, final legal copy and public canonical domain before release.
+- Owner approval is required for merge or production deployment.
+
+See TEST_RESULTS.md for coverage and HANDOFF.md for review instructions.
