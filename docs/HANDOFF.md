@@ -21,3 +21,5 @@ Resume from the head of feat/automation-platform in PR #1. The responsive and in
 2. Select the intended preview Supabase environment, apply docs/LEAD_DATABASE.sql as its administrator and configure the four server-only lead variables listed in .env.example. SITE_URL must match the actual test origin.
 3. Use an approved test enquiry to verify persistence and retry deduplication. For email, configure the approved provider, mailbox and protected worker trigger, then verify arrival. The worker's submitted count and database status record provider acceptance only. A partial batch returns 503 and unacknowledged claims become eligible again after the lease.
 4. Approve the privacy contact, retention terms, legal text and canonical domain. Then request a separate production release.
+
+Review the revised homepage using the heading “Give your team more time for human work.” The original full portrait lives at public/automation-professional.webp. Keep the intrinsic aspect ratio and the separate photo column at desktop widths. Mobile places the image below the introduction.

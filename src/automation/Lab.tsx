@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { ReactFlow, Background, Controls, MarkerType } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import {
@@ -10,7 +11,9 @@ import {
 } from "lucide-react";
 import { demos } from "./data";
 export default function Lab() {
-  const [demo, setDemo] = useState(0),
+  const [params] = useSearchParams();
+  const initial = Number(params.get("workflow"));
+  const [demo, setDemo] = useState(Number.isInteger(initial) && demos[initial] ? initial : 0),
     [step, setStep] = useState(-1),
     [playing, setPlaying] = useState(false);
   const d = demos[demo];

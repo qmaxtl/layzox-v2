@@ -27,3 +27,7 @@ The lead handler now measures UTF-8 body size and checks the JSON media type. Th
 - Owner approval is required for merge or production deployment.
 
 See TEST_RESULTS.md for coverage and HANDOFF.md for review instructions.
+
+## Homepage design revision
+
+Owner feedback identified the laptop being obscured by the compact hero composition. The new homepage uses the full approved portrait in a separate column, an interactive four-process walkthrough and six expandable service descriptions. The selected walkthrough links directly to the matching Lab simulation.

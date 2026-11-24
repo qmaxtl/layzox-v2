@@ -1,0 +1,48 @@
+.lx-home {background: white; color:#101e37}
+.lx-home h1,.lx-home h2,.lx-home h3,.lx-home p,.lx-portrait {margin:0}
+.lx-cover {background:#071c37;color:#fff;border-bottom:4px solid #16c8e1}
+.lx-spread,.lx-block,.lx-measure {width:min(1280px,90%);margin-inline:auto}
+.lx-spread {display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.86fr);align-items:center;gap:clamp(28px,5vw,90px);padding-block:clamp(32px,4vw,66px)}
+.lx-kicker {display:flex;align-items:center;gap:12px;font-size:12px;line-height:1.5;font-weight:650;letter-spacing:.12em;text-transform:uppercase}
+.lx-kicker::before {content:"";width:28px;height:2px;background:#0785a3;flex:none}
+.lx-cover .lx-kicker {color:#b7eaed}
+.lx-cover .lx-kicker::before {background:#43e4e8}
+.lx-intro h1 {font-size:clamp(54px,6.25vw,100px);line-height:.98;font-weight:570;letter-spacing:-.071em;margin-block:30px}
+.lx-intro h1 em {font-style:normal;color:#60ebe6}
+.lx-lede,.lx-body,.lx-case>p:not(.lx-kicker) {font-size:clamp(16px,1.25vw,20px);line-height:1.6}
+.lx-lede {color:#dae6f4;max-width:48ch}
+.lx-portrait {background:#112534;border-radius:3px;overflow:hidden}
+.lx-portrait img {display:block;width:100%;height:auto;aspect-ratio:1086/1448;object-fit:contain}
+.lx-actions {display:flex;align-items:center;flex-wrap:wrap;gap:22px;margin-top:32px}
+.lx-cta,.lx-text {display:inline-flex;align-items:center;gap:10px;font-weight:650;font-size:14px}
+.lx-cta {padding:16px 20px;background:#0750e3;color:#fff;border-radius:4px}
+.lx-text svg,.lx-cta svg {width:17px;height:17px;transition:transform .2s ease}
+.lx-text:hover svg,.lx-cta:hover svg {transform:translateX(3px)}
+.lx-home .lx-block {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.18fr);gap:clamp(32px,7vw,108px);padding-block:clamp(48px,7vw,108px)}
+.lx-block h2,.lx-measure h2 {font-size:clamp(36px,4vw,64px);line-height:1.05;letter-spacing:-.06em;font-weight:560;margin-top:18px}
+.lx-body {margin-top:20px!important;color:#495b70;max-width:44ch}
+.lx-choices {display:grid;margin-top:28px}
+.lx-choices button,.lx-list summary {color:inherit;display:flex;align-items:center;gap:14px;border:0;border-bottom:1px solid #c6d3de;background:transparent;padding:17px 0;text-align:left;font-weight:550}
+.lx-choices button svg,.lx-list summary svg:last-child {margin-left:auto}
+.lx-choices button[aria-pressed=true] {color:#074fc7;border-bottom-color:#0750e3;font-weight:750}
+.lx-case {align-self:start;background:#eaf2fa;padding:clamp(24px,3.4vw,56px);border-top:3px solid #005bcd}
+.lx-case h3 {font-weight:600;letter-spacing:-.045em;font-size:clamp(28px,3vw,48px);margin:18px 0 8px}
+.lx-case ol {list-style:none;margin:24px 0;padding:0;counter-reset:steps}
+.lx-case li {padding:11px 0;display:flex;align-items:center;gap:18px;border-top:1px solid #bbcddb;font-weight:570}
+.lx-case li span {color:#385572;font:12px monospace}
+.lx-case .lx-text,.lx-list .lx-text {color:#0045b4}
+.lx-services {background:#f6f8fa;border-block:1px solid #d7e0ea}
+.lx-list summary {list-style:none;font-size:clamp(17px,1.4vw,23px);padding:20px 0;cursor:pointer}
+.lx-list summary::-webkit-details-marker {display:none}
+.lx-list summary:focus-visible {outline:3px solid #008bdb}
+.lx-list summary svg:first-child {color:#0750cc;flex:none}
+.lx-list details[open] summary svg:last-child {transform:rotate(180deg)}
+.lx-list details>div {padding:18px 0 22px;line-height:1.6}
+.lx-list ul {padding-left:20px}
+.lx-measure {display:flex;justify-content:space-between;align-items:center;gap:30px;padding-block:64px}
+.lx-measure h2 {max-width:19ch}
+.lx-measure .lx-cta {flex:none}
+.lx-home>.audit-banner {margin:0;border-radius:0}
+@media(prefers-reduced-motion:no-preference){.lx-case ol {animation:lx-workflow-enter .32s ease-out}@keyframes lx-workflow-enter {from {transform:translateY(6px);opacity:.6}to {transform:translateY(0);opacity:1}}}
+@media(max-width:900px){.lx-spread {grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);gap:25px}.lx-intro h1 {font-size:clamp(46px,6.6vw,64px)}.lx-actions {gap:15px}.lx-home .lx-block {gap:32px}}
+@media(max-width:650px){.lx-spread,.lx-home .lx-block {grid-template-columns:minmax(0,1fr)}.lx-intro h1 {font-size:clamp(46px,12vw,74px);margin-block:22px}.lx-actions {margin-top:22px}.lx-portrait {width:100%;max-width:430px;justify-self:center}.lx-measure {align-items:flex-start;flex-direction:column}.lx-cover .lx-kicker {font-size:10px}.lx-home .lx-block {padding-block:48px}}

@@ -31,3 +31,7 @@ Visitor experience verification: tested the built homepage in headless Chromium 
 - GitHub Actions check annotation for job 135037390972 explicitly reports an account billing lock. No job-step log exists. No repository-side workflow skip was introduced.
 
 Vercel built application commit 386d064 successfully. [Tested preview](https://layzox-v2-6sq8sujow-amit-kumar-guptas-projects-9297d4e0.vercel.app). All 20 page URLs, sitemap.xml and robots.txt returned HTTP 200 with the four configured security headers. An unknown URL returned 404 and both API endpoints rejected GET with 405. GitHub run 45335795440 again recorded the billing lock before any steps executed.
+
+## Homepage design revision
+
+Chromium verified the photo retained its natural aspect ratio, the copy and photo bounds did not intersect, and nine points across the lower photo remained unobscured after scrolling the image into view at 320, 390, 650, 651, 768, 1024, 1440 and 1920 CSS pixels. Checked all four homepage workflow selections opened their corresponding Lab simulation and all six service disclosures contained valid detail links. [Desktop and mobile visual comparison](screenshots/homepage-portrait-review.jpg).

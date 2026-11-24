@@ -1,246 +1,56 @@
-import { motion, useReducedMotion } from "framer-motion";
-import {
-  ArrowRight,
-  Bot,
-  CalendarDays,
-  ChartNoAxesCombined,
-  Check,
-  ClipboardList,
-  Database,
-  Headphones,
-  Link2,
-  MessageCircle,
-  Play,
-  Settings,
-  Users,
-  Workflow,
-} from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, ArrowUpRight, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
-import { solutions } from "./data";
-import { AuditBanner, Brand, ButtonLink } from "./Shell";
+import { demos, solutions } from "./data";
+import { AuditBanner } from "./Shell";
+import "./home.css";
+
 export default function Home() {
-  const reduced = useReducedMotion();
+  const [selected, setSelected] = useState(0);
+  const demo = demos[selected];
   return (
-    <>
-      <section className="hero">
-        <div className="hero-inner">
-          <div className="hero-copy">
-            <span className="hero-pill">
-              <i /> AI + Automation + Integration
-            </span>
-            <h1>
-              Turn Repetitive Work <br />
-              Into <em>Automated Growth.</em>
-            </h1>
-            <p>
-              We design and implement end-to-end automation systems that save
-              time, reduce manual work, and help your business grow — with AI,
-              integrations and custom workflows.
-            </p>
-            <div className="hero-actions">
-              <ButtonLink to="/discovery">Automate My Business</ButtonLink>
-              <Link to="/audit" className="button secondary">
-                <CalendarDays size={18} /> Get a Free Process Audit
-              </Link>
-            </div>
-            <div className="benefits">
-              {["Faster operations", "Less manual work", "Connected teams"].map(
-                (t) => (
-                  <span key={t}>
-                    <Check />
-                    {t}
-                  </span>
-                ),
-              )}
+    <div className="lx-home">
+      <section className="lx-cover" aria-labelledby="cover-heading">
+        <div className="lx-spread">
+          <div className="lx-intro">
+            <p className="lx-kicker">Business automation &amp; AI operations</p>
+            <h1 id="cover-heading">Give your team<br />more time for<br /><em>human work.</em></h1>
+            <p className="lx-lede">From the first customer enquiry to the final approval, we connect your tools and automate the handoffs that slow people down.</p>
+            <div className="lx-actions">
+              <Link className="lx-cta" to="/audit">Get a free process audit <ArrowUpRight /></Link>
+              <Link className="lx-text" to="/discovery">Explore Discovery Studio <ArrowRight /></Link>
             </div>
           </div>
-          <div className="hero-person">
-            <img
-              src="/layzox-hero-office.webp"
-              alt="Professional working at a laptop in a modern office"
-              width="338"
-              height="309"
-              fetchPriority="high"
-            />
-          </div>
-          <div className="hub-area">
-            <div className="automation-hub">
-              <h2>
-                <Brand mark />
-                Business Automation Hub
-              </h2>
-              <div className="hub-steps">
-                {[
-                  [ClipboardList, "Capture"],
-                  [Settings, "Automate"],
-                  [ChartNoAxesCombined, "Grow"],
-                ].map(([Icon, label], i) => {
-                  const I = Icon as typeof ClipboardList;
-                  return (
-                    <div key={String(label)} className={`hub-step step-${i}`}>
-                      <I />
-                      <strong>{String(label)}</strong>
-                      {i < 2 && <ArrowRight className="hub-arrow" />}
-                    </div>
-                  );
-                })}
-              </div>
-              <Link className="hub-demo" to="/lab">
-                <Play size={21} fill="currentColor" /> Explore interactive demo
-              </Link>
-            </div>
-            <div className="hub-services">
-              <svg className="hub-wires" viewBox="0 0 60 250" preserveAspectRatio="none" aria-hidden="true">
-                {[24,75,125,175,226].map((y,i)=><path key={y} d={`M0 125 C26 125 27 ${y} 60 ${y}`} fill="none" stroke={["#00dbff","#18ffd9","#18efff","#adeaff","#c388ff"][i]} strokeWidth="2"/>)}
-              </svg>
-              {[
-                [Bot, "AI Agents", "ai-agents"],
-                [MessageCircle, "WhatsApp Automation", "whatsapp"],
-                [Users, "CRM & Sales", "sales-marketing"],
-                [Headphones, "Customer Support", "customer-support"],
-                [
-                  ChartNoAxesCombined,
-                  "Reports & Analytics",
-                  "integrations-data",
-                ],
-              ].map(([Icon, label, slug]) => {
-                const I = Icon as typeof Bot;
-                return (
-                  <Link key={String(slug)} to={`/solutions/${slug}`}>
-                    <I />
-                    {String(label)}
-                  </Link>
-                );
-              })}
-            </div>
+          <figure className="lx-portrait">
+            <img src="/automation-professional.webp" alt="Professional at a desk with an open laptop" width="1086" height="1448" fetchPriority="high" />
+          </figure>
+        </div>
+      </section>
+      <section className="lx-story lx-block" aria-labelledby="story-heading">
+        <div>
+          <p className="lx-kicker">Automation experience lab</p>
+          <h2 id="story-heading">Follow the work.</h2>
+          <p className="lx-body">Pick a business process and follow a sample request through the systems and people involved.</p>
+          <div className="lx-choices" role="group" aria-label="Choose a sample workflow">
+            {demos.map((item, i) => <button type="button" key={item.name} aria-pressed={selected === i} onClick={() => setSelected(i)}>{item.name}<ArrowRight size={17}/></button>)}
           </div>
         </div>
-        <svg className="signal-wave" viewBox="0 0 1536 100" preserveAspectRatio="none" aria-hidden="true">
-          {Array.from({length:26},(_,i)=><path key={i} d={`M-20 ${i*1.2} Q145 ${145+i} 360 ${95+i/2} T770 ${82+i} Q925 ${17+i} 1055 ${63+i} T1300 ${41+i} Q1455 ${74+i} 1556 ${i*2-12}`} fill="none" stroke={i%3===0?"#65fff9":"#008eff"} strokeWidth="1"/>)}
-        </svg>
+        <div className="lx-case" aria-live="polite">
+          <p className="lx-kicker">Workflow simulation</p>
+          <h3>{demo.name}</h3>
+          <p>{demo.sample}</p>
+          <ol key={demo.name}>{demo.steps.map((step, i) => <li key={step}><span>{String(i + 1).padStart(2, "0")}</span>{step}</li>)}</ol>
+          <Link className="lx-text" to={`/lab?workflow=${selected}`}>Run this simulation <ArrowRight /></Link>
+        </div>
       </section>
-      <div className="home-body">
-        <section
-          className="capability-bar"
-          aria-label="Connected business capabilities"
-        >
-          <strong>One connected business.</strong>
-          {[
-            [Bot, "AI workflows"],
-            [MessageCircle, "Messaging"],
-            [Database, "CRM systems"],
-            [Link2, "Integrations"],
-            [ChartNoAxesCombined, "Analytics"],
-          ].map(([Icon, label]) => {
-            const I = Icon as typeof Bot;
-            return (
-              <span key={String(label)}>
-                <I />
-                {String(label)}
-              </span>
-            );
-          })}
-          <small>
-            Designed around <br />
-            your existing tools
-          </small>
-        </section>
-        <section className="solutions-row">
-          <div className="section-intro">
-            <span className="eyebrow">Our automation solutions</span>
-            <h2>
-              Automation systems <br />
-              built for real <br />
-              business operations.
-            </h2>
-            <div className="blue-line" />
-          </div>
-          {solutions.slice(0, 5).map((s, i) => (
-            <motion.div key={s.slug} whileHover={reduced ? {} : { y: -5 }}>
-              <Link
-                className={`solution-card ${i === 0 ? "featured" : ""}`}
-                to={`/solutions/${s.slug}`}
-              >
-                <s.icon size={30} />
-                <h3>{s.name}</h3>
-                <p>{s.description}</p>
-                <span className="circle-arrow">
-                  <ArrowRight size={17} />
-                </span>
-              </Link>
-            </motion.div>
-          ))}
-        </section>
-        <section className="workflow-preview">
-          <div>
-            <h2>
-              See automation <br />
-              in action.
-            </h2>
-            <p>
-              A quick interactive walkthrough of how Layzox can connect your
-              business processes.
-            </p>
-            <ButtonLink to="/lab">Try Interactive Demo</ButtonLink>
-          </div>
-          <div className="workflow-preview-main">
-            <span className="simulation-pill">
-              <i /> Sample workflow · Lead to sales
-            </span>
-            <div className="mini-workflow">
-              {[
-                [Users, "New lead", "Web form"],
-                [Bot, "AI agent", "Qualify & review"],
-                [Database, "CRM", "Add to pipeline"],
-                [MessageCircle, "Follow-up", "Draft a reply"],
-                [ChartNoAxesCombined, "Sales", "Track progress"],
-              ].map(([Icon, title, sub], i) => {
-                const I = Icon as typeof Bot;
-                return (
-                  <div key={String(title)} className={i === 1 ? "active" : ""}>
-                    <I />
-                    <strong>{String(title)}</strong>
-                    <small>{String(sub)}</small>
-                    {i < 4 && <ArrowRight className="mini-arrow" />}
-                  </div>
-                );
-              })}
-            </div>
-            <small className="simulation-note">
-              Interactive simulation — no messages sent or accounts connected.
-            </small>
-          </div>
-          <Link className="overview-tile" to="/lab"><span>Explore the workflow</span></Link>
-        </section>
-        <section className="impact-row">
-          <h2>
-            Explore your <br />
-            automation potential.
-          </h2>
-          <div>
-            <Workflow />
-            <strong>
-              4<span>Interactive workflow demos</span>
-            </strong>
-          </div>
-          <div>
-            <Settings />
-            <strong>
-              6<span>Automation solution areas</span>
-            </strong>
-          </div>
-          <div>
-            <ChartNoAxesCombined />
-            <strong>
-              Your ROI<span>Calculate an indicative estimate</span>
-            </strong>
-          </div>
-          <Link to="/roi">
-            Estimate your savings <ArrowRight size={18} />
-          </Link>
-        </section>
-        <AuditBanner />
-      </div>
-    </>
+      <section className="lx-services">
+        <div className="lx-block">
+          <div><p className="lx-kicker">Our services</p><h2>Where automation<br />fits your business.</h2><p className="lx-body">Explore the daily work each solution handles, from validating an invoice to routing a customer request.</p></div>
+          <div className="lx-list">{solutions.map(s => <details key={s.slug} name="lx-solution"><summary><s.icon size={23}/>{s.name}<ChevronDown size={18}/></summary><div><p>{s.description}</p><ul>{s.tasks.map(task => <li key={task}>{task}</li>)}</ul><Link className="lx-text" to={`/solutions/${s.slug}`}>Explore solution <ArrowRight /></Link></div></details>)}</div>
+        </div>
+      </section>
+      <section className="lx-measure"><div><p className="lx-kicker">ROI calculator</p><h2>What is the manual work costing you?</h2></div><Link className="lx-cta" to="/roi">Estimate your savings <ArrowUpRight /></Link></section>
+      <AuditBanner />
+    </div>
   );
 }
