@@ -46,3 +46,37 @@
 @media(prefers-reduced-motion:no-preference){.lx-case ol {animation:lx-workflow-enter .32s ease-out}@keyframes lx-workflow-enter {from {transform:translateY(6px);opacity:.6}to {transform:translateY(0);opacity:1}}}
 @media(max-width:900px){.lx-spread {grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);gap:25px}.lx-intro h1 {font-size:clamp(46px,6.6vw,64px)}.lx-actions {gap:15px}.lx-home .lx-block {gap:32px}}
 @media(max-width:650px){.lx-spread,.lx-home .lx-block {grid-template-columns:minmax(0,1fr)}.lx-intro h1 {font-size:clamp(46px,12vw,74px);margin-block:22px}.lx-actions {margin-top:22px}.lx-portrait {width:100%;max-width:430px;justify-self:center}.lx-measure {align-items:flex-start;flex-direction:column}.lx-cover .lx-kicker {font-size:10px}.lx-home .lx-block {padding-block:48px}}
+
+/* The object and its controls share a stage, separate from the headline. */
+.lx-cover {background:radial-gradient(ellipse at 72% 42%,#122347 0%,#07132a 39%,#060d1c 72%);border-bottom:1px solid #31415c}
+.lx-spread {grid-template-columns:minmax(0,.9fr) minmax(0,1.12fr);gap:4%;padding-block:clamp(36px,4.5vw,80px)}
+.lx-intro h1 {font-size:clamp(95px,9.3vw,156px);line-height:.86;letter-spacing:-.085em;font-weight:520;margin:28px 0 32px}
+.lx-intro h1 em {font-family:Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.09em;color:#86e9f0}
+.lx-cta {border-radius:100px;background:#1555dc;padding:16px 23px}
+.lx-cover .lx-cta {background:#d3f8fa;color:#092030}
+.signal-studio {position:relative;min-width:0}
+.signal-art {position:relative;isolation:isolate;width:100%;aspect-ratio:1.44;background:radial-gradient(ellipse at 50% 54%,#263d79aa,transparent 65%)}
+.signal-art::before {content:"";position:absolute;inset:4% 6%;border-radius:50%;border:1px solid #78ccf941;transform:rotate(-24deg) scaleY(.68);z-index:-1}
+.signal-art::after {content:"";position:absolute;inset:8% 0;border-radius:50%;border:1px dashed #7eadea40;transform:rotate(25deg) scaleY(.69);z-index:-1}
+.signal-art canvas {display:block;width:100%;height:100%}
+.signal-console {position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px 20px;padding:18px 0 0;border-top:1px solid #7284a1;color:#fff}
+.signal-meter {position:absolute;top:-2px;left:0;display:flex;gap:3px}
+.signal-meter i {width:34px;height:3px;background:#455678}
+.signal-meter i.lit {background:#85f3ff}
+.signal-readout span {font:600 11px/1.4 monospace;letter-spacing:.08em;text-transform:uppercase;color:#a8d0f2}
+.signal-readout h2 {font-size:24px;line-height:1.25;letter-spacing:-.035em;margin:4px 0}
+.signal-readout p {font-size:14px;color:#c7d5e8;max-width:44ch;line-height:1.45;min-height:2.9em}
+.signal-console button {display:flex;align-items:center;gap:8px;padding:11px 15px;border-radius:40px;background:#142947;border:1px solid #687e9b;color:#fff;font-size:13px}
+.signal-console button:hover {background:#294065}
+.lx-human {display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr);gap:clamp(34px,8vw,120px);align-items:center;background:#0b1a32;color:white;padding:clamp(34px,6vw,90px) max(5%,calc((100vw - 1280px)/2))}
+.lx-human .lx-portrait {max-width:360px;width:100%;justify-self:center}
+.lx-human h2 {font-size:clamp(36px,4.7vw,74px);font-weight:520;letter-spacing:-.065em;line-height:1.03;margin:18px 0}
+.lx-human h2+p {color:#cddcec;line-height:1.6;max-width:44ch;margin-bottom:20px}
+.lx-case {background:#10274a;color:white;border-top:3px solid #62cddc;border-radius:2px}
+.lx-case .lx-kicker,.lx-case .lx-text,.lx-case li span {color:#a4e7f5}
+.lx-case li {border-color:#425875}
+@media(max-width:900px){.lx-spread {gap:4%;grid-template-columns:.85fr 1fr}.lx-intro h1 {font-size:clamp(82px,10vw,106px)}}
+@media(max-width:650px){.lx-spread {grid-template-columns:minmax(0,1fr);gap:15px;padding-block:32px}.lx-intro h1 {font-size:clamp(78px,18vw,110px);margin:17px 0 19px}.lx-intro h1 br {display:none}.lx-intro h1 em::before {content:" "}.lx-actions {gap:14px}.signal-art {aspect-ratio:1.85}.signal-console {gap:10px;padding-top:12px}.signal-readout h2 {font-size:21px}.signal-console button {padding:10px}.lx-human {grid-template-columns:minmax(0,1fr)}.lx-human .lx-portrait {max-width:330px}}
+@media(max-width:410px){.lx-intro h1 {font-size:clamp(58px,15.7vw,65px)}}
+.signal-art img {position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.signal-art canvas[data-painted=true]+img {visibility:hidden}

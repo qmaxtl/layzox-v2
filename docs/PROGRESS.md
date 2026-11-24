@@ -31,3 +31,5 @@ See TEST_RESULTS.md for coverage and HANDOFF.md for review instructions.
 ## Homepage design revision
 
 Owner feedback identified the laptop being obscured by the compact hero composition. The new homepage uses the full approved portrait in a separate column, an interactive four-process walkthrough and six expandable service descriptions. The selected walkthrough links directly to the matching Lab simulation.
+
+The homepage now opens with an original interactive ribbon rendered from 3D geometry. The three-stage lead simulation rotates the artwork with each visitor action. An intrinsic-ratio portrait accompanies the human oversight section.

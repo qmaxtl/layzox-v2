@@ -35,3 +35,5 @@ Vercel built application commit 386d064 successfully. [Tested preview](https://l
 ## Homepage design revision
 
 Chromium verified the photo retained its natural aspect ratio, the copy and photo bounds did not intersect, and nine points across the lower photo remained unobscured after scrolling the image into view at 320, 390, 650, 651, 768, 1024, 1440 and 1920 CSS pixels. Checked all four homepage workflow selections opened their corresponding Lab simulation and all six service disclosures contained valid detail links. [Desktop and mobile visual comparison](screenshots/homepage-portrait-review.jpg).
+
+Work in sync revision: Chromium tests checked the three hero states and replay at 320, 390, 650, 651, 768, 1024, 1440 and 1920 CSS pixels, zero horizontal overflow and the unobscured laptop area. Desktop and mobile [screenshots](screenshots/work-in-sync.jpg) were reviewed. Node tests, lint, typecheck and the 20-route build passed.

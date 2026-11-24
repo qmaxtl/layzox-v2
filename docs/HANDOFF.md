@@ -23,3 +23,5 @@ Resume from the head of feat/automation-platform in PR #1. The responsive and in
 4. Approve the privacy contact, retention terms, legal text and canonical domain. Then request a separate production release.
 
 Review the revised homepage using the heading “Give your team more time for human work.” The original full portrait lives at public/automation-professional.webp. Keep the intrinsic aspect ratio and the separate photo column at desktop widths. Mobile places the image below the introduction.
+
+Current homepage headline: “Work in sync.” In the hero, use Next step to move from Capture through Qualify to Route, then Replay. SignalStudio renders the 3D ribbon with Canvas 2D projection. The prerendered page has a static poster, and reduced-motion visitors switch between still poses. The portrait remains in its own column in the implementation section.

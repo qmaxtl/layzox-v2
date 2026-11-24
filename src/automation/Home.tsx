@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { demos, solutions } from "./data";
 import { AuditBanner } from "./Shell";
+import SignalStudio from "./SignalStudio";
 import "./home.css";
 
 export default function Home() {
@@ -14,16 +15,14 @@ export default function Home() {
         <div className="lx-spread">
           <div className="lx-intro">
             <p className="lx-kicker">Business automation &amp; AI operations</p>
-            <h1 id="cover-heading">Give your team<br />more time for<br /><em>human work.</em></h1>
-            <p className="lx-lede">From the first customer enquiry to the final approval, we connect your tools and automate the handoffs that slow people down.</p>
+            <h1 id="cover-heading">Work in<br /><em>sync.</em></h1>
+            <p className="lx-lede">AI workflows for the work between your tools. Connect enquiries, approvals and follow-ups in one continuous process.</p>
             <div className="lx-actions">
               <Link className="lx-cta" to="/audit">Get a free process audit <ArrowUpRight /></Link>
               <Link className="lx-text" to="/discovery">Explore Discovery Studio <ArrowRight /></Link>
             </div>
           </div>
-          <figure className="lx-portrait">
-            <img src="/automation-professional.webp" alt="Professional at a desk with an open laptop" width="1086" height="1448" fetchPriority="high" />
-          </figure>
+          <SignalStudio />
         </div>
       </section>
       <section className="lx-story lx-block" aria-labelledby="story-heading">
@@ -48,6 +47,12 @@ export default function Home() {
           <div><p className="lx-kicker">Our services</p><h2>Where automation<br />fits your business.</h2><p className="lx-body">Explore the daily work each solution handles, from validating an invoice to routing a customer request.</p></div>
           <div className="lx-list">{solutions.map(s => <details key={s.slug} name="lx-solution"><summary><s.icon size={23}/>{s.name}<ChevronDown size={18}/></summary><div><p>{s.description}</p><ul>{s.tasks.map(task => <li key={task}>{task}</li>)}</ul><Link className="lx-text" to={`/solutions/${s.slug}`}>Explore solution <ArrowRight /></Link></div></details>)}</div>
         </div>
+      </section>
+      <section className="lx-human">
+                  <figure className="lx-portrait">
+            <img src="/automation-professional.webp" alt="Professional at a desk with an open laptop" width="1086" height="1448" loading="lazy" />
+          </figure>
+        <div><p className="lx-kicker">Implementation &amp; human oversight</p><h2>Built around the people doing the work.</h2><p>Start with the way your team handles a request today. In Discovery Studio, choose a process, identify the handoffs and see where a person should review the outcome.</p><Link className="lx-text" to="/discovery">Map your first workflow <ArrowRight /></Link></div>
       </section>
       <section className="lx-measure"><div><p className="lx-kicker">ROI calculator</p><h2>What is the manual work costing you?</h2></div><Link className="lx-cta" to="/roi">Estimate your savings <ArrowUpRight /></Link></section>
       <AuditBanner />
