@@ -1,100 +1,66 @@
-import { useEffect, useRef, useState } from "react";
-import { ArrowRight, RotateCcw } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, Check, CheckCheck, ClipboardList, FileText, Inbox, Layers, MessageCircle, RotateCcw, ShieldCheck } from "lucide-react";
 
-const phases = [
-  { title: "Capture", detail: "A website enquiry arrives with a name, company and request." },
-  { title: "Qualify", detail: "The workflow checks required fields and proposes a sales owner for review." },
-  { title: "Route", detail: "The reviewed enquiry reaches the CRM with an owner and a follow-up task." },
+const stages = [
+  { title: "Enquiry", app: "WhatsApp inbox", icon: MessageCircle },
+  { title: "CRM", app: "Sales workspace", icon: Layers },
+  { title: "Quotation", app: "Quotation desk", icon: FileText },
+  { title: "Approval", app: "Approval queue", icon: ShieldCheck },
 ];
+const unitPrice = 2500;
+const currency = (n: number) => "₹" + n.toLocaleString("en-IN");
 
-// A continuous folded metal ribbon. Each quad gets its reflection from its
-// surface normal, so the highlights follow the geometry as the view rotates.
-function surface(u: number, v: number) {
-  const twist = 1.5 * u;
-  const radius = 0.86 + 0.31 * v * Math.cos(twist) + 0.12 * Math.cos(3 * u);
-  return [radius * Math.cos(u), radius * Math.sin(u), 0.36 * Math.sin(3 * u) + 0.36 * v * Math.sin(twist)];
-}
-const segments = 128, strips = 16;
-const vertices = Array.from({ length: (segments + 1) * (strips + 1) }, (_, i) =>
-  surface(Math.floor(i / (strips + 1)) / segments * Math.PI * 2, (i % (strips + 1)) / strips * 2 - 1));
-function draw(canvas: HTMLCanvasElement, yaw: number, phase: number) {
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-  const width = canvas.width, height = canvas.height;
-  if (!width || !height) return;
-  ctx.clearRect(0, 0, width, height);
-  const scale = Math.min(width * 0.36, height * 0.43);
-  const ca = Math.cos(yaw), sa = Math.sin(yaw), tilt = -0.5;
-  const points = vertices.map(([x, y, z]) => {
-    const a = x * ca + z * sa, b = z * ca - x * sa;
-    const yy = y * Math.cos(tilt) - b * Math.sin(tilt), zz = y * Math.sin(tilt) + b * Math.cos(tilt);
-    const perspective = 4.7 / (4.7 - zz);
-    return { x: width / 2 + a * scale * perspective, y: height / 2 - yy * scale * perspective, z: zz, a, b: yy };
-  });
-  const faces = [];
-  for (let i = 0; i < segments; i++) {
-    for (let j = 0; j < strips; j++) {
-      const n = i * (strips + 1) + j, a = points[n], b = points[n + strips + 1], c = points[n + strips + 2], d = points[n + 1];
-      const ux = b.a - a.a, uy = b.b - a.b, uz = b.z - a.z;
-      const vx = d.a - a.a, vy = d.b - a.b, vz = d.z - a.z;
-      const nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
-      const len = Math.hypot(nx, ny, nz) || 1;
-      const normal = (nx * .45 - ny * .43 + nz * .78) / len;
-      const shine = Math.pow(Math.abs(Math.cos(normal * 5.6 + .24)), 14);
-      const rim = Math.pow(Math.abs(normal), 3);
-      const seam = j === 0 || j === strips - 1;
-      const hue = 230 - 40 * rim + phase * 3;
-      const light = seam ? 67 + 23 * shine : 17 + 21 * rim + 54 * shine;
-      faces.push({ a, b, c, d, z: a.z + b.z + c.z + d.z, color: `hsl(${hue},${seam ? 92 : 80}%,${light}%)` });
-    }
+export default function SignalStudio({ stage, setStage }: { stage: number; setStage: (value: number) => void }) {
+  const [people, setPeople] = useState("12");
+  const [approved, setApproved] = useState(false);
+  const valid = /^\d+$/.test(people) && +people >= 1 && +people <= 100;
+  const count = valid ? +people : 12;
+  const current = stages[stage];
+  const Icon = current.icon;
+  function restart() {
+    setPeople("12");
+    setApproved(false);
+    setStage(0);
   }
-  faces.sort((a,b) => a.z - b.z);
-  ctx.lineWidth = .8;
-  for (const f of faces) {
-    ctx.fillStyle = ctx.strokeStyle = f.color;
-    ctx.beginPath(); ctx.moveTo(f.a.x,f.a.y); ctx.lineTo(f.b.x,f.b.y);
-    ctx.lineTo(f.c.x,f.c.y); ctx.lineTo(f.d.x,f.d.y); ctx.closePath(); ctx.fill(); ctx.stroke();
+  function navigate(next: number) {
+    if (stage === 1 && !valid) return;
+    setStage(next);
   }
-  canvas.dataset.painted = "true";
-}
+  const action = ["Create CRM record", "Prepare quotation", "Send for review", approved ? "Replay simulation" : "Approve sample quote"][stage];
+  function advance() {
+    if (stage < 3) navigate(stage + 1);
+    else if (approved) restart();
+    else setApproved(true);
+  }
 
-export default function SignalStudio() {
-  const [phase, setPhase] = useState(0);
-  const canvas = useRef<HTMLCanvasElement>(null);
-  const angle = useRef(.38);
-  useEffect(() => {
-    const el = canvas.current;
-    if (!el) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let frame = 0;
-    function size() {
-      if (!el) return;
-      const bounds = el.getBoundingClientRect();
-      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-      el.width = Math.round(bounds.width * ratio);
-      el.height = Math.round(bounds.height * ratio);
-      draw(el, angle.current, phase);
-    }
-    const observer = new ResizeObserver(size);
-    observer.observe(el);
-    size();
-    const from = angle.current, to = .38 + phase * .75;
-    const start = performance.now();
-    function animate(now: number) {
-      const t = reduced.matches ? 1 : Math.min(1, (now - start) / 660);
-      angle.current = from + (to - from) * (1 - (1-t)**3);
-      draw(el!, angle.current, phase);
-      if (t < 1) frame = requestAnimationFrame(animate);
-    }
-    if (from !== to) frame = requestAnimationFrame(animate);
-    return () => { observer.disconnect(); cancelAnimationFrame(frame); };
-  }, [phase]);
-  return <section className="signal-studio" aria-label="Interactive lead workflow">
-    <div className="signal-art" aria-hidden="true"><canvas ref={canvas} /><img src="/workflow-ribbon.webp" alt="" width="640" height="444" /></div>
-    <div className="signal-console">
-      <div className="signal-meter" aria-hidden="true">{phases.map((p,i)=><i key={p.title} className={i <= phase ? "lit" : ""}/>)}</div>
-      <div className="signal-readout" aria-live="polite"><span>Lead simulation · {phase + 1} / 3</span><h2>{phases[phase].title}</h2><p>{phases[phase].detail}</p></div>
-      <button type="button" onClick={() => setPhase((phase + 1) % phases.length)}>{phase === 2 ? <>Replay <RotateCcw size={15}/></> : <>Next step <ArrowRight size={16}/></>}</button>
+  return <section className="desk" aria-label="Interactive enquiry demonstration">
+    <div className="desk-caption"><span><i /> Interactive walkthrough</span><span>Sample data</span></div>
+    <div className="desk-window">
+      <div className="desk-bar"><span className="desk-app"><Icon size={17} />{current.app}</span><span className="desk-ref">LZ / 012</span></div>
+      <div className="desk-page" key={stage} aria-live="polite">
+        {stage === 0 && <>
+          <div className="desk-person"><span className="desk-avatar">AM</span><div><strong>Asha Mehta</strong><small>Sample conversation</small></div></div>
+          <div className="desk-inbox"><span className="desk-time">Today · 09:41</span><div className="desk-bubble">Hi! Could you share a quotation for a team workshop for 12 people?<small>09:41</small></div><div className="desk-response">Enquiry captured <CheckCheck size={14}/></div></div>
+        </>}
+        {stage === 1 && <>
+          <div className="desk-doc-label"><Inbox size={16}/> Enquiry record</div><h2>Asha Mehta</h2>
+          <dl className="desk-fields"><div><dt>Source</dt><dd>WhatsApp</dd></div><div><dt>Request</dt><dd>Team workshop</dd></div><div><dt>Assigned to</dt><dd>Sales desk</dd></div></dl>
+          <label className="desk-count">Participants <input type="number" min="1" max="100" value={people} onChange={e => {setPeople(e.target.value); setApproved(false);}} aria-invalid={!valid}/></label>
+          {!valid && <small role="alert">Enter 1 to 100 participants.</small>}
+        </>}
+        {stage === 2 && <>
+          <div className="desk-doc-label"><FileText size={16}/> Sample quotation · Q-012</div><h2>Team workshop</h2><p className="desk-sub">Prepared for Asha Mehta</p>
+          <div className="desk-line"><span>{count} participants × {currency(unitPrice)}</span><strong>{currency(count * unitPrice)}</strong></div>
+          <div className="desk-total"><span>Sample total</span><strong>{currency(count * unitPrice)}</strong></div>
+        </>}
+        {stage === 3 && <>
+          <div className="desk-doc-label"><ClipboardList size={16}/> Review request · Q-012</div><h2>{approved ? "Quotation approved" : "Ready for review"}</h2>
+          <dl className="desk-fields"><div><dt>Recipient</dt><dd>Asha Mehta</dd></div><div><dt>Workshop</dt><dd>{count} participants</dd></div><div><dt>Quote total</dt><dd>{currency(count * unitPrice)}</dd></div></dl>
+          <p className={'desk-status' + (approved ? ' complete' : '')}>{approved ? <><Check size={16}/> Approved in this simulation. Nothing was sent.</> : <><ShieldCheck size={16}/> Waiting for your approval.</>}</p>
+        </>}
+      </div>
+      <div className="desk-toolbar"><small>Step {stage + 1} of 4</small><button type="button" disabled={!valid} onClick={advance}>{action}{stage === 3 && approved ? <RotateCcw size={15}/> : <ArrowRight size={15}/>}</button></div>
     </div>
+    <nav className="desk-steps" aria-label="Explore workflow stages">{stages.map((s,i) => <button type="button" key={s.title} disabled={stage === 1 && !valid && i !== stage} onClick={() => navigate(i)} aria-current={stage === i ? "step" : undefined}><span>{String(i+1).padStart(2,"0")}</span>{s.title}</button>)}</nav>
   </section>;
 }
