@@ -31,13 +31,13 @@ export default async function handler(req: Request, res: ServerResponse) {
     });
   if (req.headers.origin !== config.origin)
     return reply(403, { error: "Request origin not allowed." });
-  if (!req.headers["content-type"]?.startsWith("application/json"))
+  if (req.headers["content-type"]?.split(";")[0].trim().toLowerCase() !== "application/json")
     return reply(415, { error: "Use JSON." });
   if (Number(req.headers["content-length"] || 0) > 16000)
     return reply(413, { error: "Request is too large." });
   let body = req.body;
   if (typeof body === "string") {
-    if (body.length > 16000)
+    if (Buffer.byteLength(body) > 16000)
       return reply(413, { error: "Request is too large." });
     try {
       body = JSON.parse(body);
@@ -45,7 +45,7 @@ export default async function handler(req: Request, res: ServerResponse) {
       return reply(400, { error: "Invalid JSON." });
     }
   }
-  if (JSON.stringify(body ?? {}).length > 16000)
+  if (Buffer.byteLength(JSON.stringify(body ?? {})) > 16000)
     return reply(413, { error: "Request is too large." });
   const key = req.headers["idempotency-key"];
   if (key !== undefined && (typeof key !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(key)))

@@ -7,12 +7,15 @@ import { leadSchema, type LeadInput } from "./lead-schema";
 import { industries } from "./data";
 export default function LeadForm() {
   const location = useLocation();
+  const pathname = location.pathname.replace(/\/+$/, "");
   const kind =
-    location.pathname === "/contact"
+    pathname === "/contact"
       ? "contact"
-      : location.pathname === "/consultation"
+      : pathname === "/consultation"
         ? "consultation"
         : "audit";
+  const enquiryLabel = { audit: "Free automation audit", contact: "Contact Layzox", consultation: "Project consultation" }[kind];
+  const submitLabel = { audit: "Request my free audit", contact: "Send enquiry", consultation: "Request a consultation" }[kind];
   const preset = location.state as {
     industry?: string;
     message?: string;
@@ -85,7 +88,7 @@ export default function LeadForm() {
     <div className="page-wrap lead-page">
       <div className="page-heading">
         <span className="eyebrow">
-          {kind === "contact" ? "Contact Layzox" : "Free automation audit"}
+          {enquiryLabel}
         </span>
         <h1>
           Let’s make work <br />
@@ -196,6 +199,7 @@ export default function LeadForm() {
                 type="checkbox"
                 {...register("consent")}
                 aria-invalid={!!errors.consent}
+                aria-describedby={errors.consent ? "consent-error" : undefined}
               />{" "}
               <span>
                 I agree to be contacted about this request and have read the{" "}
@@ -203,7 +207,7 @@ export default function LeadForm() {
               </span>
             </label>
             {errors.consent && (
-              <p className="field-error">{errors.consent.message}</p>
+              <p id="consent-error" className="field-error">{errors.consent.message}</p>
             )}
             {status && (
               <p role="alert" className="error-banner">
@@ -213,9 +217,7 @@ export default function LeadForm() {
             <button className="button" disabled={isSubmitting || unavailable} type="submit">
               {isSubmitting
                 ? "Submitting…"
-                : kind === "contact"
-                  ? "Send enquiry"
-                  : "Request my free audit"}
+                : submitLabel}
               <ArrowRight size={18} />
             </button>
             {(unavailable || status) && <button type="button" className="button secondary" onClick={downloadBrief}>Download my enquiry</button>}

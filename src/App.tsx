@@ -30,7 +30,7 @@ const NotFound = lazy(() =>
   import("./automation/Pages").then((m) => ({ default: m.NotFound })),
 );
 function Metadata() {
-  const { pathname } = useLocation();
+  const pathname = useLocation().pathname.replace(/\/+$/, "") || "/";
   useEffect(() => {
     const titles: Record<string, string> = {
       "/": "Business Automation & AI Operations",

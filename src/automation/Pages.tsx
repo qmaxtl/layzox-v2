@@ -197,7 +197,7 @@ export function About() {
           <em>brighter tomorrow.</em>
         </h1>
         <p>
-          Layzox designs and implements business automation systems: practical
+          Layzox India Private Limited designs and implements business automation systems: practical
           workflows that connect the tools you already use, reduce repeated work
           and keep your team in control.
         </p>

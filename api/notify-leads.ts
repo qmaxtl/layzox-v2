@@ -46,6 +46,7 @@ export default async function handler(
     "Content-Type": "application/json",
   };
   try {
+    if (new URL(url).protocol !== "https:") throw new Error("Invalid backend URL");
     const claimed = await fetch(
       new URL("/rest/v1/rpc/claim_automation_notifications", url),
       {
@@ -57,7 +58,7 @@ export default async function handler(
     );
     if (!claimed.ok) throw new Error("Claim failed");
     const rows = (await claimed.json()) as { id: string }[];
-    let delivered = 0;
+    let submitted = 0;
     for (const row of rows) {
       if (!/^[0-9a-f-]{36}$/i.test(row.id)) continue;
       const sent = await fetch("https://api.resend.com/emails", {
@@ -76,18 +77,20 @@ export default async function handler(
         signal: AbortSignal.timeout(8000),
       });
       if (!sent.ok) continue;
+      const receipt = await sent.json();
+      if (typeof receipt?.id !== "string" || !receipt.id.trim()) continue;
       const updated = await fetch(
         new URL(`/rest/v1/automation_leads?id=eq.${row.id}`, url),
         {
           method: "PATCH",
           headers,
-          body: JSON.stringify({ notification_status: "delivered" }),
+          body: JSON.stringify({ notification_status: "submitted" }),
           signal: AbortSignal.timeout(8000),
         },
       );
-      if (updated.ok) delivered++;
+      if (updated.ok) submitted++;
     }
-    return reply(200, { claimed: rows.length, delivered });
+    return reply(submitted === rows.length ? 200 : 503, { claimed: rows.length, submitted });
   } catch {
     return reply(503, {
       error:

@@ -82,6 +82,8 @@ test("configured handler: origin, validation, durable success, rate limit and ba
       (await call("POST", valid, { "content-type": "text/plain" })).status,
       415,
     );
+    assert.equal((await call("POST", valid, { "content-type": "application/jsonp" })).status, 415);
+    assert.equal((await call("POST", { ...valid, extra: "₹".repeat(6000) })).status, 413);
     globalThis.fetch = async () =>
       new Response(JSON.stringify({ accepted: true }), { status: 200 });
     assert.deepEqual(await call("POST"), {

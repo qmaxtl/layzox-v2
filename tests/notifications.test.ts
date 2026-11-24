@@ -24,7 +24,7 @@ test("notification worker requires authorisation and explicit enablement", async
   assert.equal((await call()).status, 503);
   delete process.env.NOTIFICATION_WORKER_SECRET;
 });
-test("outbox confirms delivery only after provider acknowledgement", async () => {
+test("outbox requires a provider receipt before recording submission", async () => {
   Object.assign(process.env, {
     NOTIFICATION_WORKER_SECRET: "test",
     ENABLE_LEAD_NOTIFICATIONS: "true",
@@ -43,13 +43,19 @@ test("outbox confirms delivery only after provider acknowledgement", async () =>
         ? new Response(
             JSON.stringify([{ id: "12345678-1234-1234-1234-123456789012" }]),
           )
-        : new Response("{}", { status: 200 });
+        : new Response(JSON.stringify({ id: "provider-receipt" }));
     };
     assert.deepEqual(await call(), {
       status: 200,
-      body: { claimed: 1, delivered: 1 },
+      body: { claimed: 1, submitted: 1 },
     });
     assert.equal(calls, 3);
+    let attempts = 0;
+    globalThis.fetch = async () => new Response(JSON.stringify(
+      ++attempts === 1 ? [{ id: "12345678-1234-1234-1234-123456789012" }] : {},
+    ));
+    assert.deepEqual(await call(), { status: 503, body: { claimed: 1, submitted: 0 } });
+    assert.equal(attempts, 2);
   } finally {
     globalThis.fetch = original;
     for (const key of [

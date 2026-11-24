@@ -131,9 +131,13 @@ export function Shell() {
         className="site-header"
         onKeyDown={(e) => {
           if (e.key === "Escape") {
-            setDrop(null);
-            setMenu(false);
-            menuButton.current?.focus();
+            if (drop) {
+              header.current?.querySelector<HTMLButtonElement>(`[aria-controls="nav-${drop}"]`)?.focus();
+              setDrop(null);
+            } else if (menu) {
+              setMenu(false);
+              menuButton.current?.focus();
+            }
           }
         }}
       >
@@ -167,7 +171,7 @@ export function Shell() {
               <div className="nav-group" key={name}>
                 <button
                   aria-expanded={drop === name}
-                  aria-controls={`nav-${name}`}
+                  aria-controls={drop === name ? `nav-${name}` : undefined}
                   onClick={() => setDrop(drop === name ? null : name)}
                 >
                   {name}
@@ -228,7 +232,7 @@ export function Shell() {
         <div>
           <Link to="/legal/privacy-policy">Privacy</Link>
           <Link to="/legal/terms">Terms</Link>
-          <span>© {new Date().getFullYear()} Layzox</span>
+          <span>© {new Date().getFullYear()} Layzox India Private Limited</span>
         </div>
       </footer>
     </>

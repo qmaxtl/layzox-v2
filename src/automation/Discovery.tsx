@@ -23,7 +23,7 @@ export default function Discovery() {
       <ol className="wizard-progress">
         {["Your business", "Repetitive work", "Your opportunity"].map(
           (s, i) => (
-            <li key={s} className={stage === i ? "current" : ""}>
+            <li key={s} aria-current={stage === i ? "step" : undefined} className={stage === i ? "current" : ""}>
               {i + 1}. {s}
             </li>
           ),
