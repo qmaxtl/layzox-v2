@@ -1,3 +1,4 @@
+import "./service-experience.css";
 import { Link, useParams, useLocation } from "react-router-dom";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { solutions, industries, demos } from "./data";
