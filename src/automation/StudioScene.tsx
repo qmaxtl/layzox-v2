@@ -45,7 +45,7 @@ export default function StudioScene() {
       root.style.setProperty("--intro-opacity", String(Math.max(0,1-progress*(cinematic ? 7 : 2.5))));
       setReading(progress > (cinematic ? .72 : .59));
     }
-    function queue() { cancelAnimationFrame(frame); frame = requestAnimationFrame(render); }
+    function queue() { if(frame) return; frame = requestAnimationFrame(() => { frame=0; render(); }); }
     const ro = new ResizeObserver(queue);
     ro.observe(root);
     window.addEventListener("scroll", queue, { passive:true });
@@ -68,9 +68,13 @@ export default function StudioScene() {
     if (!root) return;
     if (!cinematicMode) { panel.current?.scrollIntoView({block:"start",behavior:"instant"}); panel.current?.focus({preventScroll:true}); return; }
     const sticky = root.firstElementChild as HTMLElement;
-    const top = scrollY + root.getBoundingClientRect().bottom - sticky.offsetHeight - parseFloat(getComputedStyle(sticky).top);
+    const top = scrollY + root.getBoundingClientRect().bottom - sticky.offsetHeight - (parseFloat(getComputedStyle(sticky).top) || 0);
     window.scrollTo({ top, behavior:"instant" });
     setReading(true);
+    setProgress(1);
+    root.style.setProperty("--takeover","1");
+    root.style.setProperty("--scene-opacity","0");
+    root.style.setProperty("--intro-opacity","0");
     requestAnimationFrame(() => panel.current?.focus({ preventScroll:true }));
   }
   function select(next: number) { setPlaying(false); setStage(next); }
@@ -85,11 +89,11 @@ export default function StudioScene() {
         <p>Connect sales, support and operations with AI workflows built around the tools your people already use.</p>
         <div className="film-actions"><button type="button" onClick={openWalkthrough}>Watch a workflow <ArrowDown size={16}/></button><Link to="/audit">Free automation audit <ArrowUpRight size={16}/></Link></div>
       </div>
-      <div className="film-console" ref={panel} tabIndex={-1} inert={cinematicMode && !reading}>
+      <div className="film-console" ref={panel} tabIndex={-1} inert={cinematicMode && !reading} role="region" aria-label="Interactive workflow dashboard">
         <div className="film-chapters">
           <p className="lx-kicker">Interactive walkthrough</p><h2>Enquiry to approval.</h2>
-          <div className="film-index">{chapters.map(([title,desc],i)=><button type="button" key={title} disabled={invalid && i !== stage} aria-current={i===stage?"step":undefined} onClick={()=>select(i)}><span>{String(i+1).padStart(2,"0")}</span><div><strong>{title}</strong>{stage===i && <small>{desc}</small>}</div></button>)}</div>
-          <button type="button" className="film-play" disabled={invalid} onClick={()=>{if(stage===3)setStage(0);setPlaying(!playing);}}>{playing?<Pause size={15}/>:<Play size={15}/>} {playing?"Pause tour":"Play guided tour"}</button>
+          <div className="film-index" aria-label="Workflow chapters">{chapters.map(([title,desc],i)=><button type="button" key={title} disabled={invalid && i !== stage} aria-current={i===stage?"step":undefined} onClick={()=>select(i)}><span>{String(i+1).padStart(2,"0")}</span><div><strong>{title}</strong>{stage===i && <small>{desc}</small>}</div></button>)}</div>
+          <button type="button" className="film-play" aria-pressed={playing} disabled={invalid} onClick={()=>{if(stage===3)setStage(0);setPlaying(!playing);}}>{playing?<Pause size={15}/>:<Play size={15}/>} {playing?"Pause tour":"Play guided tour"}</button>
         </div>
         <div onInput={()=>setPlaying(false)}><SignalStudio stage={stage} setStage={select} onValidityChange={setInvalid}/></div>
       </div>
