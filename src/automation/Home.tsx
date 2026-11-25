@@ -18,23 +18,40 @@ export default function Home() {
   const chapter = chapters[stage];
   return (
     <div className="lx-home">
-      <section className="lx-cover" data-stage={stage} aria-labelledby="cover-heading">
+      <section className="studio-cover" aria-labelledby="cover-heading">
+        <img className="studio-art" src="/optical-routing.webp" alt="" width="1500" height="1000" fetchPriority="high" />
+        <div className="studio-copy">
+          <p className="lx-kicker">Business automation &amp; AI operations</p>
+          <h1 id="cover-heading">Connect the work<br />between <em>systems.</em></h1>
+          <p>We connect the messages, tools and approvals your team relies on, so each request reaches the right person with its context intact.</p>
+          <div className="lx-actions">
+            <a href="#enquiry-walkthrough" className="lx-cta">Explore the workflow <ArrowRight /></a>
+            <Link className="lx-text" to="/audit">Get a free audit <ArrowUpRight /></Link>
+          </div>
+        </div>
+      </section>
+      <section id="enquiry-walkthrough" className="lx-cover" data-stage={stage} aria-labelledby="workflow-heading">
         <div className="lx-spread">
-          <div className="lx-intro">
-            <p className="lx-kicker">Business automation &amp; AI operations</p>
-            <h1 id="cover-heading">{chapter.first}<br /> <em>{chapter.last}</em></h1>
+          <div className="chapter-intro" key={stage}>
+            <p className="lx-kicker">Interactive case study · Sample enquiry</p>
+            <h2 id="workflow-heading">{chapter.first}<br /><em>{chapter.last}</em></h2>
             <p className="lx-lede">{chapter.copy}</p>
-            <div className="lx-actions">
-              <Link className="lx-cta" to="/audit">Get a free process audit <ArrowUpRight /></Link>
-              <Link className="lx-text" to="/discovery">Explore Discovery Studio <ArrowRight /></Link>
-            </div>
           </div>
           <SignalStudio stage={stage} setStage={setStage} />
         </div>
       </section>
       <section className="practice-section" aria-labelledby="practice-title">
         <div className="practice-heading"><div><p className="lx-kicker">Automation capabilities</p><h2 id="practice-title">The systems behind<br />the handoff.</h2></div><p>Capture the request, move the right information and give people a clear point to review it.</p></div>
-        <div className="practice-grid">{solutions.map(s => <Link key={s.slug} to={`/solutions/${s.slug}`}><s.icon className="practice-icon" size={26}/><h3>{s.name}</h3><p>{s.tasks[0]}</p><ArrowUpRight className="practice-arrow" size={19}/></Link>)}</div>
+        <div className="practice-index">{solutions.map((s, index) => (
+          <details key={s.slug} name="capability" open={index === 0}>
+            <summary><s.icon size={23} /><span>{s.name}</span><span className="practice-toggle" aria-hidden="true" /></summary>
+            <div className="practice-detail">
+              <p>{s.description}</p>
+              <ul>{s.tasks.map(task => <li key={task}>{task}</li>)}</ul>
+              <Link className="lx-text" to={`/solutions/${s.slug}`}>Explore solution <ArrowUpRight /></Link>
+            </div>
+          </details>
+        ))}</div>
       </section>
       <section className="lx-human">
                   <figure className="lx-portrait">

@@ -23,3 +23,5 @@ Resume from the head of feat/automation-platform in PR #1. The responsive and in
 4. Approve the privacy contact, retention terms, legal text and canonical domain. Then request a separate production release.
 
 Review the homepage headed “From enquiry to approved.” Select Create CRM record, change the participant count, prepare the quotation, send for review and approve. Replay restores 12 participants. The sample uses ₹2,500 per participant. All interaction state is local and the demonstration sends no messages, approvals or leads to external systems. The full portrait remains in the implementation section.
+
+The latest preview opens with “Connect the work between systems.” Use Explore the workflow to enter the enquiry-to-approval case study. The original product-style optical illustration is a visual metaphor for connected systems. It is stored locally as an optimized WebP.

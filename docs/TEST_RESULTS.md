@@ -41,3 +41,5 @@ Work in sync revision: Chromium tests checked the three hero states and replay a
 ## Enquiry-to-approval redesign
 
 Lint, typecheck, all 12 Node tests and the 20-route production build passed. Chromium exercised the complete demo at nine widths from 320 to 1920 CSS pixels. Tested invalid quantities, 18 participants yielding ₹45,000 in the quote and approval, explicit approval, replay restoring 12, direct stage selection, horizontal overflow and unobstructed portrait. [Four desktop scenes](screenshots/enquiry-journey.jpg).
+
+Optical homepage revision: lint, typecheck, all 12 tests and the 20-route build passed. Chromium exercised the hero anchor, all six service disclosures, participant editing, ₹45,000 quotation for 18 participants, review, approval and replay at 320, 390, 680, 768, 1024 and 1440 CSS pixels. No horizontal page overflow or uncaught page errors in those checks. Automated WCAG A/AA checks on the homepage reported zero findings at 390 and 1440 px. [Desktop and mobile](screenshots/optical-homepage.jpg).

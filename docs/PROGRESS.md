@@ -31,3 +31,5 @@ See TEST_RESULTS.md for coverage and HANDOFF.md for review instructions.
 ## Homepage design revision
 
 The homepage now demonstrates one sample WhatsApp enquiry through an editable CRM record, a priced quotation and an explicit human approval. Each scene has its own headline and product view. Six solution links explain the capabilities behind the demo; all four existing Lab simulations remain accessible directly. The full professional portrait sits separately from the controls.
+
+The homepage opens with an original optical-routing illustration and a direct link to the interactive enquiry walkthrough. A six-part service index reveals scope and tasks for each capability.
