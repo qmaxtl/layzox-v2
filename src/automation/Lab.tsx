@@ -11,12 +11,16 @@ import {
 } from "lucide-react";
 import { demos } from "./data";
 export default function Lab() {
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
   const initial = Number(params.get("workflow"));
   const [demo, setDemo] = useState(Number.isInteger(initial) && demos[initial] ? initial : 0),
     [step, setStep] = useState(-1),
     [playing, setPlaying] = useState(false);
   const d = demos[demo];
+  useEffect(() => {
+    const next = Number(params.get("workflow"));
+    if (Number.isInteger(next) && demos[next]) { setDemo(next); setStep(-1); setPlaying(false); }
+  }, [params]);
   useEffect(() => {
     if (!playing) return;
     const id = setTimeout(() => {
@@ -49,6 +53,7 @@ export default function Lab() {
             aria-pressed={i === demo}
             onClick={() => {
               setDemo(i);
+              setParams({workflow:String(i)}, {replace:true});
               reset();
             }}
           >
