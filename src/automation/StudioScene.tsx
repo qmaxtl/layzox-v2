@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUpRight, Check, Pause, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 import SignalStudio from "./SignalStudio";
+import CinematicCanvas from "./CinematicCanvas";
 import "./presentation.css";
 import "./cinematic.css";
 
@@ -15,6 +16,7 @@ const chapters = [
 export default function StudioScene() {
   const track = useRef<HTMLElement>(null);
   const panel = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
   const [reading, setReading] = useState(false);
   const [stage, setStage] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -31,6 +33,7 @@ export default function StudioScene() {
       const top = parseFloat(getComputedStyle(sticky).top) || 0;
       const distance = root.offsetHeight - sticky.offsetHeight;
       const progress = Math.max(0, Math.min(1, (top - root.getBoundingClientRect().top) / Math.max(1, distance)));
+      setProgress(progress);
       const p = Math.min(1, progress / .78);
       const eased = p * p * (3 - 2 * p);
       const cinematic = !media.matches && window.innerWidth >= 900 && window.innerHeight >= 500;
@@ -74,6 +77,7 @@ export default function StudioScene() {
         <img src="/operations-at-dusk.webp" alt="An operations specialist at a workstation in a blue-hour studio" fetchPriority="high" />
         <div className="film-mini" aria-hidden="true"><strong>LAYZOX <span> / Sales workspace</span></strong><b>Workshop enquiry</b><div className="mini-record"><span>Channel</span>WhatsApp<span>Participants</span>12<span>Owner</span>Sales desk</div><small><Check size={10}/> Ready for quotation</small></div></div>
       </div>
+      <div className="cinematic-layer"><CinematicCanvas progress={progress}/></div>
       <div className="film-shade"/>
       <div className="film-intro" inert={reading}>
         <p className="lx-kicker">Layzox India Private Limited</p>
