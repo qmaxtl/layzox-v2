@@ -67,6 +67,7 @@ test("configured handler: origin, validation, durable success, rate limit and ba
     SUPABASE_SERVICE_ROLE_KEY: "test",
     RATE_LIMIT_SALT: "test",
     SITE_URL: "https://example.com",
+    VERCEL_ENV: "production",
   });
   const original = globalThis.fetch;
   try {
@@ -104,6 +105,7 @@ test("configured handler: origin, validation, durable success, rate limit and ba
       "SUPABASE_SERVICE_ROLE_KEY",
       "RATE_LIMIT_SALT",
       "SITE_URL",
+      "VERCEL_ENV",
     ])
       delete process.env[key];
   }
