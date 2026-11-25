@@ -167,7 +167,7 @@ export function UseCases() {
         </p>
       </div>
       <div className="content-grid">
-        {demos.map((d) => (
+        {demos.map((d, index) => (
           <article className="panel" key={d.name}>
             <span className="eyebrow">Illustrative scenario</span>
             <h2>{d.name}</h2>
@@ -177,7 +177,7 @@ export function UseCases() {
                 <li key={s}>{s}</li>
               ))}
             </ol>
-            <ButtonLink to="/lab">Try the simulation</ButtonLink>
+            <ButtonLink to={`/lab?workflow=${index}`}>Try the simulation</ButtonLink>
           </article>
         ))}
       </div>
@@ -256,7 +256,7 @@ export function Resources() {
           ],
           [
             "Automation lab",
-            "Follow sample records through four interactive workflows.",
+            "Follow sample records through seven interactive workflows.",
             "/lab",
           ],
         ].map(([h, p, to]) => (
