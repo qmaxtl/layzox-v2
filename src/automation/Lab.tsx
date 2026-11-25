@@ -38,7 +38,7 @@ export default function Lab() {
           <em>Then imagine yours.</em>
         </h1>
         <p>
-          Explore four realistic examples, one step at a time. These are
+          Explore seven realistic examples, one step at a time. These are
           simulations, with sample data. No external systems are connected.
         </p>
       </div>
@@ -90,8 +90,8 @@ export default function Lab() {
             nodes={d.steps.map((label, i) => ({
               id: String(i),
               position: { x: i * 220, y: 30 },
-              data: { label: `${i < step ? "✓ " : ""}${label}` },
-              className: `flow-node ${i === step ? "current" : ""} ${i < step ? "done" : ""}`,
+              data: { label: `${i < step || step === 4 ? "✓ " : ""}${label}` },
+              className: `flow-node ${i === step && step !== 4 ? "current" : ""} ${i < step ? "done" : ""}`,
               draggable: false,
             }))}
             edges={d.steps
@@ -133,7 +133,7 @@ export default function Lab() {
             {step < 0
               ? "Ready when you are"
               : step === 4
-                ? "Simulation complete"
+                ? "Final step · simulation complete"
                 : `Step ${step + 1} of 5`}
           </strong>
           <p>
