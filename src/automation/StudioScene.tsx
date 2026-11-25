@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowUpRight, Check, Pause, Play } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Pause, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 import SignalStudio from "./SignalStudio";
 import CinematicCanvas from "./CinematicCanvas";
@@ -40,8 +40,8 @@ export default function StudioScene() {
       root.style.setProperty("--takeover", String(cinematic ? Math.max(0, Math.min(1, (progress - .65) / .23)) : 1));
       root.style.setProperty("--scene-opacity", String(cinematic ? 1 - Math.max(0, Math.min(1, (progress - .72) / .18)) : 1));
       root.style.setProperty("--camera", String(cinematic ? 1 + eased * 2.45 : 1));
-      root.style.setProperty("--intro-opacity", String(Math.max(0,1-progress*7)));
-      setReading(progress > .78);
+      root.style.setProperty("--intro-opacity", String(Math.max(0,1-progress*(cinematic ? 7 : 2.5))));
+      setReading(progress > (cinematic ? .72 : .59));
     }
     function queue() { cancelAnimationFrame(frame); frame = requestAnimationFrame(render); }
     const ro = new ResizeObserver(queue);
@@ -73,10 +73,7 @@ export default function StudioScene() {
   function select(next: number) { setPlaying(false); setStage(next); }
   return <section className="film-track" ref={track} aria-labelledby="cover-heading">
     <div className="film-sticky" data-reading={reading}>
-      <div className="film-photo"><div className="film-plate">
-        <img src="/operations-at-dusk.webp" alt="An operations specialist at a workstation in a blue-hour studio" fetchPriority="high" />
-        <div className="film-mini" aria-hidden="true"><strong>LAYZOX <span> / Sales workspace</span></strong><b>Workshop enquiry</b><div className="mini-record"><span>Channel</span>WhatsApp<span>Participants</span>12<span>Owner</span>Sales desk</div><small><Check size={10}/> Ready for quotation</small></div></div>
-      </div>
+      <div className="film-photo"><img src="/layzox-office.webp" alt="" fetchPriority="high" /></div>
       <div className="cinematic-layer"><CinematicCanvas progress={progress}/></div>
       <div className="film-shade"/>
       <div className="film-intro" inert={reading}>
