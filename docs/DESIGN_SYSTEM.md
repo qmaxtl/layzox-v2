@@ -1,0 +1,7 @@
+# Design system
+Approved visual references: docs/references/approved-homepage.webp and technology-map.webp.
+Navy #031b39, electric blue #0754ff, cyan #00c9e4; pale surfaces #f5f8ff and white. Inter variable self-hosted Latin font. Responsive breakpoints 1200, 900 and 600 px. Desktop header and hero, human photograph, HTML automation hub, light solution cards, workflow preview and navy audit banner follow the approved composition.
+Brand mark reproduces the reference ribbon-L silhouette in SVG; original repository logo differed. Review the final vector against the approved reference before production. No standalone redesign is intended.
+Buttons use visible focus, rounded shapes and short transforms. Motion respects OS reduced-motion. Workflow demos only start on user input. Mobile stacks content and exposes a disclosure navigation.
+Reference client logos/review figures and numerical business outcomes are not supported by supplied evidence; capability labels replace them. The generated human illustration is an illustrative marketing asset, not a customer endorsement.
+Hero asset public/automation-professional.webp: generated using built-in image generation, then encoded as WebP. Prompt: Indian male professional, navy shirt, glasses, seated at silver laptop, dark modern office, natural photography, no text/logos. Reference designs remain documentation assets, not webpage backgrounds.
