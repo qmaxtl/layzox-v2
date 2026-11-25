@@ -6,6 +6,7 @@ type Request = IncomingMessage & { body?: unknown };
 export default async function handler(req: Request, res: ServerResponse) {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
+  res.setHeader("X-Content-Type-Options", "nosniff");
   const reply = (status: number, body: object) => {
     res.statusCode = status;
     res.end(JSON.stringify(body));
@@ -29,7 +30,9 @@ export default async function handler(req: Request, res: ServerResponse) {
       error:
         "Enquiry submission is temporarily unavailable. Your request has not been submitted. Please try again later.",
     });
-  if (req.headers.origin !== config.origin)
+  let expectedOrigin: string;
+  try { const site = new URL(config.origin); if(site.protocol !== "https:") throw new Error(); expectedOrigin = site.origin; } catch { return reply(503, { error: "Enquiry service unavailable." }); }
+  if (req.headers.origin !== expectedOrigin)
     return reply(403, { error: "Request origin not allowed." });
   if (req.headers["content-type"]?.split(";")[0].trim().toLowerCase() !== "application/json")
     return reply(415, { error: "Use JSON." });
@@ -57,7 +60,7 @@ export default async function handler(req: Request, res: ServerResponse) {
     });
   try {
     const base = new URL(config.url);
-    if (base.protocol !== "https:")
+    if (base.protocol !== "https:" || base.username || base.password || base.search || base.hash)
       throw new Error("Invalid backend configuration");
     const ip = String(
       req.headers["x-vercel-forwarded-for"] ||
@@ -81,6 +84,7 @@ export default async function handler(req: Request, res: ServerResponse) {
           p_request_id: key ?? randomUUID(),
           p_payload: parsed.data,
         }),
+        redirect: "error",
         signal: AbortSignal.timeout(8000),
       },
     );
