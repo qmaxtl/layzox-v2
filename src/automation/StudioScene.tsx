@@ -3,6 +3,7 @@ import { ArrowDown, ArrowUpRight, Check, Pause, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 import SignalStudio from "./SignalStudio";
 import "./presentation.css";
+import "./cinematic.css";
 
 const chapters = [
   ["Capture the request", "A customer asks for a workshop quotation on WhatsApp."],
@@ -30,10 +31,14 @@ export default function StudioScene() {
       const top = parseFloat(getComputedStyle(sticky).top) || 0;
       const distance = root.offsetHeight - sticky.offsetHeight;
       const progress = Math.max(0, Math.min(1, (top - root.getBoundingClientRect().top) / Math.max(1, distance)));
-      const eased = progress * progress * (3 - 2 * progress);
-      root.style.setProperty("--camera", String(media.matches ? 1 : 1 + eased * 1.55));
-      root.style.setProperty("--intro-opacity", String(Math.max(0,1-progress*2.5)));
-      setReading(progress > .59);
+      const p = Math.min(1, progress / .78);
+      const eased = p * p * (3 - 2 * p);
+      const cinematic = !media.matches && window.innerWidth >= 900 && window.innerHeight >= 500;
+      root.style.setProperty("--takeover", String(cinematic ? Math.max(0, Math.min(1, (progress - .65) / .23)) : 1));
+      root.style.setProperty("--scene-opacity", String(cinematic ? 1 - Math.max(0, Math.min(1, (progress - .72) / .18)) : 1));
+      root.style.setProperty("--camera", String(cinematic ? 1 + eased * 2.45 : 1));
+      root.style.setProperty("--intro-opacity", String(Math.max(0,1-progress*7)));
+      setReading(progress > .78);
     }
     function queue() { cancelAnimationFrame(frame); frame = requestAnimationFrame(render); }
     const ro = new ResizeObserver(queue);
@@ -72,7 +77,7 @@ export default function StudioScene() {
       <div className="film-shade"/>
       <div className="film-intro" inert={reading}>
         <p className="lx-kicker">Layzox India Private Limited</p>
-        <h1 id="cover-heading">Business automation<br/>for the work <em>between teams.</em></h1>
+        <h1 id="cover-heading">Business automation.<br/><em>Engineered for scale.</em></h1>
         <p>Connect sales, support and operations with AI workflows built around the tools your people already use.</p>
         <div className="film-actions"><button type="button" onClick={openWalkthrough}>Watch a workflow <ArrowDown size={16}/></button><Link to="/audit">Free automation audit <ArrowUpRight size={16}/></Link></div>
       </div>
