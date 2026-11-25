@@ -18,6 +18,7 @@ export default function StudioScene() {
   const panel = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [reading, setReading] = useState(false);
+  const [cinematicMode, setCinematicMode] = useState(false);
   const [stage, setStage] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [invalid, setInvalid] = useState(false);
@@ -37,6 +38,7 @@ export default function StudioScene() {
       const p = Math.min(1, progress / .78);
       const eased = p * p * (3 - 2 * p);
       const cinematic = !media.matches && window.innerWidth >= 900 && window.innerHeight >= 500;
+      setCinematicMode(cinematic);
       root.style.setProperty("--takeover", String(cinematic ? Math.max(0, Math.min(1, (progress - .65) / .23)) : 1));
       root.style.setProperty("--scene-opacity", String(cinematic ? 1 - Math.max(0, Math.min(1, (progress - .72) / .18)) : 1));
       root.style.setProperty("--camera", String(cinematic ? 1 + eased * 2.45 : 1));
@@ -53,17 +55,18 @@ export default function StudioScene() {
   }, []);
 
   useEffect(() => {
-    if (!reading || !playing || stage === 3 || invalid) return;
+    if ((cinematicMode && !reading) || !playing || stage === 3 || invalid) return;
     const timer = window.setTimeout(() => {
       setStage(stage + 1);
       if (stage === 2) setPlaying(false);
     }, 4600);
     return () => clearTimeout(timer);
-  }, [reading, playing, stage, invalid]);
+  }, [reading, playing, stage, invalid, cinematicMode]);
 
   function openWalkthrough() {
     const root = track.current;
     if (!root) return;
+    if (!cinematicMode) { panel.current?.scrollIntoView({block:"start",behavior:"instant"}); panel.current?.focus({preventScroll:true}); return; }
     const sticky = root.firstElementChild as HTMLElement;
     const top = scrollY + root.getBoundingClientRect().bottom - sticky.offsetHeight - parseFloat(getComputedStyle(sticky).top);
     window.scrollTo({ top, behavior:"instant" });
@@ -76,13 +79,13 @@ export default function StudioScene() {
       <div className="film-photo"><img src="/layzox-office.webp" alt="" fetchPriority="high" /></div>
       <div className="cinematic-layer"><CinematicCanvas progress={progress}/></div>
       <div className="film-shade"/>
-      <div className="film-intro" inert={reading}>
+      <div className="film-intro" inert={cinematicMode && reading}>
         <p className="lx-kicker">Layzox India Private Limited</p>
         <h1 id="cover-heading">Business automation.<br/><em>Engineered for scale.</em></h1>
         <p>Connect sales, support and operations with AI workflows built around the tools your people already use.</p>
         <div className="film-actions"><button type="button" onClick={openWalkthrough}>Watch a workflow <ArrowDown size={16}/></button><Link to="/audit">Free automation audit <ArrowUpRight size={16}/></Link></div>
       </div>
-      <div className="film-console" ref={panel} tabIndex={-1} inert={!reading}>
+      <div className="film-console" ref={panel} tabIndex={-1} inert={cinematicMode && !reading}>
         <div className="film-chapters">
           <p className="lx-kicker">Interactive walkthrough</p><h2>Enquiry to approval.</h2>
           <div className="film-index">{chapters.map(([title,desc],i)=><button type="button" key={title} disabled={invalid && i !== stage} aria-current={i===stage?"step":undefined} onClick={()=>select(i)}><span>{String(i+1).padStart(2,"0")}</span><div><strong>{title}</strong>{stage===i && <small>{desc}</small>}</div></button>)}</div>
