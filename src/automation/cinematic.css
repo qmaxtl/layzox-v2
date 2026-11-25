@@ -13,3 +13,7 @@
 .film-index button[aria-current]{color:#1757a8}
 }
 @media(prefers-reduced-motion:reduce){.film-photo{transform:none}}
+
+.cinematic-layer{position:absolute;inset:0;z-index:-3;pointer-events:none;opacity:var(--scene-opacity,1)}
+.cinematic-canvas{display:block;width:100%;height:100%}
+@media(max-width:899px),(max-height:499px){.cinematic-layer{display:none}}
