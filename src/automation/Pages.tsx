@@ -2,6 +2,8 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { solutions, industries, demos } from "./data";
 import { AuditBanner, ButtonLink } from "./Shell";
+
+function ServiceVisual({label,steps}:{label:string;steps:string[]}) { return <figure className="service-visual"><img src="/operations-studio.webp" alt="" loading="lazy"/><figcaption><span>LAYZOX / SYSTEM DESIGN</span><h2>{label}</h2><div className="service-flow">{steps.map((step,i)=><div key={step}><small>0{i+1}</small><strong>{step}</strong></div>)}</div><small>Illustrative architecture · scoped to your systems</small></figcaption></figure>; }
 export function Solutions() {
   const { slug } = useParams();
   const s = solutions.find((x) => x.slug === slug);
@@ -26,6 +28,7 @@ export function Solutions() {
             : "From the first enquiry to the final report, connect your people, processes and tools with automation designed around the way you work."}
         </p>
       </div>
+      <ServiceVisual label={s ? s.name : "Connected business operations"} steps={["Capture","Orchestrate","Review","Deliver"]}/>
       {s ? (
         <>
           <section className="detail-grid">
@@ -112,6 +115,7 @@ export function Industries() {
           your team, systems and industry requirements.
         </p>
       </div>
+      <ServiceVisual label="Industry-specific workflows" steps={["Enquiry","Qualification","Approval","Handoff"]}/>
       <div className="content-grid">
         {industries.map((x, i) => (
           <section className="panel content-card" key={x}>
