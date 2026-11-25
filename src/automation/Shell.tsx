@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useId, type ReactNode } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { ArrowRight, ChevronDown, Menu, X, CalendarDays } from "lucide-react";
 import { solutions } from "./data";
+import "./enterprise.css";
 export function Brand({ mark = false }: { mark?: boolean }) {
   const id = useId();
   return (
@@ -210,24 +211,13 @@ export function Shell() {
       <main id="main-content" tabIndex={-1}>
         <Outlet />
       </main>
-      <footer className="site-footer">
-        <div>
-          <Link to="/">
-            <Brand />
-          </Link>
-          <p>Business automation. Built around your business.</p>
+      <footer className="site-footer enterprise-footer">
+        <div className="enterprise-footer-lead"><p className="eyebrow">Engineering better business</p><h2>Make work flow.</h2><Link className="button" to="/audit">Discuss your project <ArrowRight size={18}/></Link></div>
+        <div className="enterprise-footer-grid">
+          <div><Link to="/"><Brand /></Link><p>AI and business automation engineering, built around your operations.</p></div>
+          {Object.entries(groups).map(([name,items])=><div key={name}><h3>{name}</h3>{items.map(item=><Link key={item.path} to={item.path}>{item.name}</Link>)}</div>)}
         </div>
-        <div>
-          <Link to="/solutions">Solutions</Link>
-          <Link to="/lab">Automation lab</Link>
-          <Link to="/roi">ROI calculator</Link>
-          <Link to="/contact">Contact</Link>
-        </div>
-        <div>
-          <Link to="/legal/privacy-policy">Privacy</Link>
-          <Link to="/legal/terms">Terms</Link>
-          <span>© {new Date().getFullYear()} Layzox India Private Limited</span>
-        </div>
+        <div className="enterprise-footer-bottom"><span>© {new Date().getFullYear()} Layzox India Private Limited</span><Link to="/legal/privacy-policy">Privacy policy</Link><Link to="/legal/terms">Terms</Link></div>
       </footer>
     </>
   );
