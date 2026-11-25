@@ -1,45 +1,14 @@
-import { useState } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { demos, solutions } from "./data";
 import { AuditBanner } from "./Shell";
-import SignalStudio from "./SignalStudio";
+import StudioScene from "./StudioScene";
 import "./home.css";
 
-const chapters = [
-  { first: "From enquiry", last: "to approved.", copy: "See a WhatsApp request become an assigned lead and a ready-to-review quotation. We build these connections around the tools your team already uses." },
-  { first: "One enquiry.", last: "One owner.", copy: "The request arrives in Sales with the workshop and group size already filled in. Adjust the participant count to see it carry through to the quote." },
-  { first: "A quote with", last: "the details.", copy: "The quotation uses the participant count from the CRM. Check the line item and total, then send the draft to a person for review." },
-  { first: "The final call", last: "is yours.", copy: "Review the recipient, group size and amount together. Your approval changes the status of this sample quotation." },
-];
-
 export default function Home() {
-  const [stage, setStage] = useState(0);
-  const chapter = chapters[stage];
   return (
     <div className="lx-home">
-      <section className="studio-cover" aria-labelledby="cover-heading">
-        <img className="studio-art" src="/optical-routing.webp" alt="" width="1500" height="1000" fetchPriority="high" />
-        <div className="studio-copy">
-          <p className="lx-kicker">Business automation &amp; AI operations</p>
-          <h1 id="cover-heading">Connect the work<br />between <em>systems.</em></h1>
-          <p>We connect the messages, tools and approvals your team relies on, so each request reaches the right person with its context intact.</p>
-          <div className="lx-actions">
-            <a href="#enquiry-walkthrough" className="lx-cta">Explore the workflow <ArrowRight /></a>
-            <Link className="lx-text" to="/audit">Get a free audit <ArrowUpRight /></Link>
-          </div>
-        </div>
-      </section>
-      <section id="enquiry-walkthrough" className="lx-cover" data-stage={stage} aria-labelledby="workflow-heading">
-        <div className="lx-spread">
-          <div className="chapter-intro" key={stage}>
-            <p className="lx-kicker">Interactive case study · Sample enquiry</p>
-            <h2 id="workflow-heading">{chapter.first}<br /><em>{chapter.last}</em></h2>
-            <p className="lx-lede">{chapter.copy}</p>
-          </div>
-          <SignalStudio stage={stage} setStage={setStage} />
-        </div>
-      </section>
+      <StudioScene />
       <section className="practice-section" aria-labelledby="practice-title">
         <div className="practice-heading"><div><p className="lx-kicker">Automation capabilities</p><h2 id="practice-title">The systems behind<br />the handoff.</h2></div><p>Capture the request, move the right information and give people a clear point to review it.</p></div>
         <div className="practice-index">{solutions.map((s, index) => (
