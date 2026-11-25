@@ -179,7 +179,7 @@ export function Shell() {
                 </button>
                 {drop === name && (
                   <div id={`nav-${name}`} className="mega-menu">
-                    <span className="eyebrow">Explore {name}</span>
+                    <div className="mega-intro"><span className="eyebrow">Explore {name}</span><strong>{name === "Solutions" ? "Engineering connected operations." : name === "Studio" ? "Experience automation in action." : name === "Resources" ? "Plan your next step." : "Meet Layzox."}</strong></div><div className="mega-links">
                     {groups[name].map((x) => (
                       <Link
                         key={x.path}
@@ -192,7 +192,7 @@ export function Shell() {
                         {x.name}
                         <ArrowRight size={15} />
                       </Link>
-                    ))}
+                    ))}</div>
                   </div>
                 )}
               </div>
