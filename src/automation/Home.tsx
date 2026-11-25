@@ -12,9 +12,10 @@ export default function Home() {
   return (
     <div className="lx-home">
       <StudioScene />
+      <section className="enterprise-intro"><p className="lx-kicker">Built for the way business works</p><h2>Complex operations.<br/>Clearer systems.</h2><p>We design and engineer connected software that helps teams move from fragmented tasks to reliable, measurable workflows.</p><Link className="lx-text" to="/about">Our approach <ArrowUpRight /></Link></section>
       <section className="practice-section" aria-labelledby="practice-title">
-        <div className="practice-heading"><div><p className="lx-kicker">Automation capabilities</p><h2 id="practice-title">The systems behind<br />the handoff.</h2></div><p>Capture the request, move the right information and give people a clear point to review it.</p></div>
-        <div className="practice-index">{solutions.map((s, index) => (
+        <div className="practice-heading"><div><p className="lx-kicker">Automation capabilities</p><h2 id="practice-title">Engineering for<br />every handoff.</h2></div><p>Capture the request, move the right information and give people a clear point to review it.</p></div>
+        <div className="practice-index enterprise-capabilities">{solutions.map((s, index) => (
           <details key={s.slug} name="capability" open={index === 0}>
             <summary><s.icon size={23} /><span>{s.name}</span><span className="practice-toggle" aria-hidden="true" /></summary>
             <div className="practice-detail">
