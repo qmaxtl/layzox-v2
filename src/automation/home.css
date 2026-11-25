@@ -205,3 +205,11 @@ details[open] .practice-toggle::after {transform:none}
  .scene-track[data-reading=true] .desk{position:relative;width:100%;transform:none;padding:10px}
  .scene-track[data-reading=true] .desk-toolbar button,.scene-track[data-reading=true] .desk-steps button{min-height:44px}
 }
+
+/* Expanded workflow selector: keep all seven options usable at narrow widths. */
+.lx-home .lab-switch{display:flex;flex-wrap:wrap;gap:8px;overflow:visible}
+.lx-home .lab-switch button{min-height:44px;white-space:normal;flex:0 1 auto}
+.lx-home .industry-example ol li{min-width:0;overflow-wrap:anywhere;line-height:1.45}
+.lx-home .industry-example ol li small{line-height:1.55;opacity:.9}
+.lx-home .lab-switch button:focus-visible,.lx-home .lx-text:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+@media(max-width:600px){.lx-home .lab-switch button{flex:1 1 42%}.lx-home .industry-example{min-width:0;grid-template-columns:minmax(0,1fr)}.lx-home .industry-example ol{min-width:0}}
