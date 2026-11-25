@@ -16,3 +16,15 @@
 .enterprise-footer-bottom span{margin-right:auto}
 @media(max-width:900px){.enterprise-footer-grid{grid-template-columns:repeat(2,1fr)}.enterprise-footer-grid>div:first-child{grid-column:1/-1}}
 @media(max-width:480px){.enterprise-footer-grid{gap:24px 12px}.enterprise-footer-lead{padding-bottom:30px}}
+
+.enterprise-intro{background:var(--enterprise-paper);color:var(--enterprise-ink);padding:clamp(64px,10vw,150px) max(5vw,calc((100vw - 1240px)/2));display:grid;grid-template-columns:1.4fr 1fr;gap:24px 8%;align-items:end}
+.enterprise-intro .lx-kicker{grid-column:1/-1;color:var(--enterprise-blue)}
+.enterprise-intro h2{font-size:clamp(42px,6vw,88px);font-weight:500;line-height:1.02;letter-spacing:-.055em;margin:0;grid-row:2/4}
+.enterprise-intro>p:not(.lx-kicker){font-size:clamp(17px,1.6vw,23px);line-height:1.6;max-width:36ch;margin:0;color:#43566b}
+.enterprise-intro .lx-text{color:var(--enterprise-blue);justify-self:start}
+.lx-home .practice-section{padding-block:clamp(64px,8vw,120px)}
+.lx-home .practice-heading h2,.lx-home .industry-heading h2,.lx-home .lx-human h2{font-weight:500;letter-spacing:-.045em}
+.enterprise-capabilities details{border-radius:0;box-shadow:none}
+.lx-home .industry-example{border-radius:4px}
+.lx-home .lab-switch button{border-radius:4px}
+@media(max-width:760px){.enterprise-intro{grid-template-columns:1fr;gap:18px}.enterprise-intro h2{grid-row:auto}}
