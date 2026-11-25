@@ -108,3 +108,28 @@ test("configured handler: origin, validation, durable success, rate limit and ba
       delete process.env[key];
   }
 });
+
+test("preview origin isolation and backend redirect protection", async () => {
+  const keys = ["SUPABASE_URL","SUPABASE_SERVICE_ROLE_KEY","RATE_LIMIT_SALT","SITE_URL","VERCEL_ENV","VERCEL_URL"];
+  const saved = keys.map(k => process.env[k]);
+  const original = globalThis.fetch;
+  try {
+    Object.assign(process.env,{SUPABASE_URL:"https://example.supabase.co",SUPABASE_SERVICE_ROLE_KEY:"test",RATE_LIMIT_SALT:"test",SITE_URL:"https://example.com",VERCEL_ENV:"preview",VERCEL_URL:"preview.example.com"});
+    let calls = 0;
+    globalThis.fetch = async (_input, init) => {
+      calls++;
+      assert.equal(init?.redirect,"error");
+      return new Response(JSON.stringify({accepted:true}),{status:200});
+    };
+    assert.equal((await call("POST")).status,403);
+    assert.equal(calls,0);
+    assert.equal((await call("POST",valid,{origin:"https://preview.example.com"})).status,201);
+    assert.equal(calls,1);
+    process.env.SUPABASE_URL="https://user:password@example.supabase.co";
+    assert.equal((await call("POST",valid,{origin:"https://preview.example.com"})).status,503);
+    assert.equal(calls,1);
+  } finally {
+    globalThis.fetch=original;
+    keys.forEach((k,i)=>{if(saved[i]===undefined) delete process.env[k]; else process.env[k]=saved[i];});
+  }
+});
