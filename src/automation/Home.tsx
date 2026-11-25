@@ -35,10 +35,10 @@ export default function Home() {
       <section className="industry-lab">
         <div className="industry-inner"><div className="industry-heading"><p className="lx-kicker">Experience lab</p><h2>Where does work<br/>slow down?</h2><p>Select a team to follow a sample request through its decisions and handoffs.</p></div>
           <div className="lab-switch" role="group" aria-label="Choose team workflow">
-            {["Sales","Customer support","Operations","Messaging"].map((label,i)=><button type="button" key={label} aria-pressed={selected===i} onClick={()=>setSelected(i)}>{label}</button>)}
+            {["Sales","Customer support","Operations","Messaging","Travel","Manufacturing","Education"].map((label,i)=><button type="button" key={label} aria-pressed={selected===i} onClick={()=>setSelected(i)}>{label}</button>)}
           </div>
           <div className="industry-example" key={example.name} aria-live="polite"><div><p className="lx-kicker">Illustrative workflow</p><h3>{example.name}</h3><p>{example.sample}</p><Link className="lx-text" to={`/lab?workflow=${selected}`}>Run simulation <ArrowUpRight/></Link></div>
-            <ol>{example.steps.map(step=><li key={step}>{step}</li>)}</ol></div>
+            <ol>{example.steps.map((step,i)=><li key={step}><strong>{step}</strong><small style={{display:"block",fontSize:".82em",fontWeight:400,marginTop:4}}>{example.details[i]}</small></li>)}</ol></div>
         </div>
       </section>
       <section className="lx-measure"><div><p className="lx-kicker">ROI calculator</p><h2>What is the manual work costing you?</h2></div><Link className="lx-cta" to="/roi">Estimate your savings <ArrowUpRight /></Link></section>
