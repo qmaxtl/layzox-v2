@@ -1,69 +1,88 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Check, Pause, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 import SignalStudio from "./SignalStudio";
+import "./presentation.css";
+
+const chapters = [
+  ["Capture the request", "A customer asks for a workshop quotation on WhatsApp."],
+  ["Give sales the context", "Check the enquiry, assign an owner and adjust the participant count."],
+  ["Prepare the quotation", "The workshop quantity and unit price flow into the draft."],
+  ["Keep approval human", "Review the recipient and total before approving the sample."],
+];
 
 export default function StudioScene() {
+  const track = useRef<HTMLElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
+  const [reading, setReading] = useState(false);
   const [stage, setStage] = useState(0);
-  const track = useRef<HTMLDivElement>(null);
-  const scene = useRef<HTMLDivElement>(null);
-  const display = useRef<HTMLDivElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [invalid, setInvalid] = useState(false);
 
   useEffect(() => {
-    const root = track.current, image = scene.current, screen = display.current;
-    if (!root || !image || !screen) return;
-    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    const root = track.current;
+    if (!root) return;
+    const media = matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
-    function paint() {
-      if (!root || !image || !screen) return;
+    function render() {
+      if (!root) return;
       const sticky = root.firstElementChild as HTMLElement;
-      const bounds = root.getBoundingClientRect();
-      const travel = Math.max(1, bounds.height - sticky.offsetHeight);
-      const progress = Math.max(0, Math.min(1, (70 - bounds.top) / travel));
-      const blend = motion.matches ? Number(progress >= .5) : progress * progress * (3 - 2 * progress);
-      root.dataset.reading = String(progress >= .65);
-      const width = image.offsetWidth, height = image.offsetHeight;
-      const fit = Math.min(sticky.clientWidth * .94 / (width * .56), sticky.clientHeight * .92 / (height * .47));
-      const zoom = 1 + (fit - 1) * blend;
-      const dx = (.5 - .66) * width * zoom * blend;
-      const dy = (.5 - .44) * height * zoom * blend;
-      image.style.transform = `translate(${dx}px, ${dy}px) scale(${zoom})`;
-      screen.style.setProperty("--screen-scale", String(screen.offsetWidth / (window.innerWidth <= 700 && progress >= .65 ? screen.offsetWidth : 650)));
+      const top = parseFloat(getComputedStyle(sticky).top) || 0;
+      const distance = root.offsetHeight - sticky.offsetHeight;
+      const progress = Math.max(0, Math.min(1, (top - root.getBoundingClientRect().top) / Math.max(1, distance)));
+      const eased = progress * progress * (3 - 2 * progress);
+      root.style.setProperty("--camera", String(media.matches ? 1 : 1 + eased * 1.55));
+      root.style.setProperty("--intro-opacity", String(Math.max(0,1-progress*2.5)));
+      setReading(progress > .59);
     }
-    function schedule() { cancelAnimationFrame(frame); frame = requestAnimationFrame(paint); }
-    const observer = new ResizeObserver(schedule);
-    observer.observe(root); observer.observe(image);
-    window.addEventListener("scroll", schedule, { passive: true });
-    motion.addEventListener("change", schedule);
-    paint();
-    return () => { observer.disconnect(); cancelAnimationFrame(frame); window.removeEventListener("scroll", schedule); motion.removeEventListener("change", schedule); };
+    function queue() { cancelAnimationFrame(frame); frame = requestAnimationFrame(render); }
+    const ro = new ResizeObserver(queue);
+    ro.observe(root);
+    window.addEventListener("scroll", queue, { passive:true });
+    media.addEventListener("change", queue);
+    render();
+    return () => { cancelAnimationFrame(frame); ro.disconnect(); window.removeEventListener("scroll",queue); media.removeEventListener("change",queue); };
   }, []);
 
-  function enterDemo() {
+  useEffect(() => {
+    if (!reading || !playing || stage === 3 || invalid) return;
+    const timer = window.setTimeout(() => {
+      setStage(stage + 1);
+      if (stage === 2) setPlaying(false);
+    }, 4600);
+    return () => clearTimeout(timer);
+  }, [reading, playing, stage, invalid]);
+
+  function openWalkthrough() {
     const root = track.current;
     if (!root) return;
     const sticky = root.firstElementChild as HTMLElement;
-    const top = window.scrollY + root.getBoundingClientRect().bottom - sticky.offsetHeight - 70;
-    window.scrollTo({top, behavior: "instant"});
-    display.current?.focus({ preventScroll:true });
+    const top = scrollY + root.getBoundingClientRect().bottom - sticky.offsetHeight - parseFloat(getComputedStyle(sticky).top);
+    window.scrollTo({ top, behavior:"instant" });
+    setReading(true);
+    requestAnimationFrame(() => panel.current?.focus({ preventScroll:true }));
   }
-
-  return <section className="operations-scene" aria-labelledby="cover-heading">
-    <div className="operations-heading">
-      <div><p className="lx-kicker">Business automation &amp; AI operations</p>
-        <h1 id="cover-heading">One enquiry.<br/><em>Every handoff.</em></h1></div>
-      <div><p>Follow a WhatsApp request from the first message to a quotation your team can approve.</p>
-        <div className="lx-actions"><button className="lx-cta" onClick={enterDemo}>Enter the workflow <ArrowDown size={16}/></button>
-        <Link className="lx-text" to="/audit">Free process audit <ArrowUpRight/></Link></div></div>
-    </div>
-    <div className="scene-track" ref={track}>
-      <div className="scene-sticky">
-        <div className="scene-image" ref={scene}>
-          <img src="/operations-studio.webp" width="1500" height="1000" fetchPriority="high" alt="An operations designer working at a laptop beside the workflow demonstration monitor"/>
-          <div className="scene-display" ref={display} tabIndex={-1} aria-label="Sample enquiry to approval workflow">
-            <SignalStudio stage={stage} setStage={setStage}/>
-          </div>
+  function select(next: number) { setPlaying(false); setStage(next); }
+  return <section className="film-track" ref={track} aria-labelledby="cover-heading">
+    <div className="film-sticky" data-reading={reading}>
+      <div className="film-photo"><div className="film-plate">
+        <img src="/operations-at-dusk.webp" alt="An operations specialist at a workstation in a blue-hour studio" fetchPriority="high" />
+        <div className="film-mini" aria-hidden="true"><strong>LAYZOX <span> / Sales workspace</span></strong><b>Workshop enquiry</b><div className="mini-record"><span>Channel</span>WhatsApp<span>Participants</span>12<span>Owner</span>Sales desk</div><small><Check size={10}/> Ready for quotation</small></div></div>
+      </div>
+      <div className="film-shade"/>
+      <div className="film-intro" inert={reading}>
+        <p className="lx-kicker">Layzox India Private Limited</p>
+        <h1 id="cover-heading">Business automation<br/>for the work <em>between teams.</em></h1>
+        <p>Connect sales, support and operations with AI workflows built around the tools your people already use.</p>
+        <div className="film-actions"><button type="button" onClick={openWalkthrough}>Watch a workflow <ArrowDown size={16}/></button><Link to="/audit">Free automation audit <ArrowUpRight size={16}/></Link></div>
+      </div>
+      <div className="film-console" ref={panel} tabIndex={-1} inert={!reading}>
+        <div className="film-chapters">
+          <p className="lx-kicker">Interactive walkthrough</p><h2>Enquiry to approval.</h2>
+          <div className="film-index">{chapters.map(([title,desc],i)=><button type="button" key={title} disabled={invalid && i !== stage} aria-current={i===stage?"step":undefined} onClick={()=>select(i)}><span>{String(i+1).padStart(2,"0")}</span><div><strong>{title}</strong>{stage===i && <small>{desc}</small>}</div></button>)}</div>
+          <button type="button" className="film-play" disabled={invalid} onClick={()=>{if(stage===3)setStage(0);setPlaying(!playing);}}>{playing?<Pause size={15}/>:<Play size={15}/>} {playing?"Pause tour":"Play guided tour"}</button>
         </div>
+        <div onInput={()=>setPlaying(false)}><SignalStudio stage={stage} setStage={select} onValidityChange={setInvalid}/></div>
       </div>
     </div>
   </section>;

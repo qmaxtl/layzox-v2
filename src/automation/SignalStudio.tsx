@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight, Check, CheckCheck, ClipboardList, FileText, Inbox, Layers, MessageCircle, RotateCcw, ShieldCheck } from "lucide-react";
 
 const stages = [
@@ -10,10 +10,11 @@ const stages = [
 const unitPrice = 2500;
 const currency = (n: number) => "₹" + n.toLocaleString("en-IN");
 
-export default function SignalStudio({ stage, setStage }: { stage: number; setStage: (value: number) => void }) {
+export default function SignalStudio({ stage, setStage, onValidityChange }: { stage: number; setStage: (value: number) => void; onValidityChange: (invalid: boolean) => void }) {
   const [people, setPeople] = useState("12");
   const [approved, setApproved] = useState(false);
   const valid = /^\d+$/.test(people) && +people >= 1 && +people <= 100;
+  useEffect(() => { onValidityChange(!valid); }, [valid, onValidityChange]);
   const count = valid ? +people : 12;
   const current = stages[stage];
   const Icon = current.icon;

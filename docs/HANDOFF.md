@@ -27,3 +27,5 @@ Review the homepage headed “From enquiry to approved.” Select Create CRM rec
 The latest preview opens with “Connect the work between systems.” Use Explore the workflow to enter the enquiry-to-approval case study. The original product-style optical illustration is a visual metaphor for connected systems. It is stored locally as an optimized WebP.
 
 The current opening reads “One enquiry. Every handoff.” Scroll through the workstation or use Enter the workflow. The scene uses an original illustrative office image. The interface in its monitor is interactive HTML and retains the local sample enquiry throughout.
+
+Review “Business automation for the work between teams.” Scroll or use Watch a workflow, then select Play guided tour or step through manually. The guided tour stops at the human approval queue. Adjusting the participant count pauses playback. The experience lab has four team selectors linking to the corresponding full simulations.

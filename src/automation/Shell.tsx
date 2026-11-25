@@ -102,12 +102,11 @@ export function Shell() {
     return () => document.removeEventListener("click", close);
   }, []);
   const groups: { [key: string]: { name: string; path: string }[] } = {
-    Automation: solutions.map((s) => ({
+    Solutions: [{ name: "All solutions", path: "/solutions" }, ...solutions.map((s) => ({
       name: s.name,
       path: `/solutions/${s.slug}`,
-    })),
-    Solutions: [
-      { name: "All automation solutions", path: "/solutions" },
+    }))],
+    Studio: [
       { name: "Discovery studio", path: "/discovery" },
       { name: "Automation lab", path: "/lab" },
     ],
@@ -160,8 +159,8 @@ export function Shell() {
           aria-label="Primary navigation"
         >
           {[
-            "Automation",
             "Solutions",
+            "Studio",
             "Industries",
             "Use Cases",
             "Resources",
@@ -206,12 +205,7 @@ export function Shell() {
             ),
           )}
         </nav>
-        <Link className="header-audit" to="/audit">
-          <CalendarDays size={17} /> Process Audit (Free)
-        </Link>
-        <Link className="button header-cta" to="/discovery">
-          Automate My Business <ArrowRight size={16} />
-        </Link>
+        <Link className="button header-cta" to="/audit">Free automation audit <ArrowRight size={16}/></Link>
       </header>
       <main id="main-content" tabIndex={-1}>
         <Outlet />
