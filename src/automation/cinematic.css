@@ -27,3 +27,17 @@
 .film-intro{min-height:clamp(420px,75svh,680px);padding:48px 0;display:flex;flex-direction:column;justify-content:center;opacity:1;margin:0 auto}
 .film-console,.film-sticky[data-reading=true] .film-console{visibility:visible;opacity:1;transform:none;width:94%;margin:24px auto;max-height:none;overflow:visible}
 }
+
+/* Keep the mobile office image separate from the headline and workflow controls. */
+@media(max-width:760px){
+.film-sticky{background:#08162c}
+.film-intro{position:relative;min-height:0;padding:40px 0 26px;width:90%;margin:0 auto;order:0}
+.film-photo{position:relative;inset:auto;height:clamp(220px,56vw,390px);order:1;z-index:0;container-type:normal;opacity:1!important}
+.film-photo>img{object-position:65% center}
+.film-shade{display:none}
+.film-console,.film-sticky[data-reading=true] .film-console{order:2;grid-template-columns:minmax(0,1fr);margin:20px auto 28px;min-width:0}
+.film-index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.film-index button{min-height:44px;text-align:left;justify-content:flex-start;padding:8px}
+.film-actions button,.film-actions a,.film-play{min-height:44px}
+}
+@media(min-width:761px) and (max-width:899px){.film-console{grid-template-columns:minmax(0,1fr);gap:24px}}
