@@ -158,6 +158,9 @@ export const demos = [
       "A team member takes over scheduling.",
     ],
   },
+  {"name":"Travel & hospitality","sample":"Sample holiday enquiry: two travellers request a five-night itinerary.","steps":["Capture enquiry","Match requirements","Request rates","Review quotation","Prepare itinerary"],"details":["Sample dates and traveller count captured.","Destination and room preferences validated.","A draft rate request is prepared; nothing sent.","A human reviews sample availability and pricing.","A sample itinerary is prepared for approval."]},
+  {"name":"Manufacturing","sample":"Sample purchase request: replacement components for a production line.","steps":["Purchase request","Validate stock","Route approval","Draft order","Audit record"],"details":["Sample component request captured.","Inventory and required fields checked.","Manager review requested.","A draft purchase order is prepared after simulated approval.","Sample decision recorded for traceability."]},
+  {"name":"Education","sample":"Sample admissions enquiry for a professional training course.","steps":["Capture enquiry","Check criteria","Collect documents","Advisor review","Follow-up"],"details":["Sample enquiry captured.","Published eligibility criteria checked.","A document checklist is prepared.","An advisor reviews the sample application.","A draft follow-up is prepared; nothing sent."]},
 ];
 export const tasks = [
   "Lead capture & follow-up",
