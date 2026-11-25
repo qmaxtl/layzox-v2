@@ -28,3 +28,5 @@
 .lx-home .industry-example{border-radius:4px}
 .lx-home .lab-switch button{border-radius:4px}
 @media(max-width:760px){.enterprise-intro{grid-template-columns:1fr;gap:18px}.enterprise-intro h2{grid-row:auto}}
+
+.mega-intro{display:flex;flex-direction:column;gap:16px;padding:16px;background:#f6f5f1;color:#101e30}.mega-intro strong{font-size:24px;line-height:1.15;font-weight:500;letter-spacing:-.04em}.mega-links{display:grid;align-content:start}.site-header .mega-menu a{display:flex;justify-content:space-between;gap:16px}.site-header .mega-menu a:focus-visible{outline:2px solid #1454a3;outline-offset:3px}@media(min-width:1100px){.site-header .nav-group{position:static}.site-header .mega-menu{position:absolute;top:100%;left:50%;right:auto;transform:translateX(-50%);width:min(900px,90vw);display:grid;grid-template-columns:1fr 1.6fr;gap:32px;background:white;color:#101e30}.mega-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px}.site-header .mega-menu a{color:#101e30}}
